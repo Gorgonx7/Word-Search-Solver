@@ -45,6 +45,6 @@ int main(int, char **) {
 
 		ws.WriteResults(loadTime, solveTime);
 	}
-
+	system("PAUSE");
 	return 0;
 }
