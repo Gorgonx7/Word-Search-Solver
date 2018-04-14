@@ -20,6 +20,8 @@ WordSearch::WordSearch(const char * const filename) {
 
 WordSearch::~WordSearch() {
 	// Add your code here
+	FoundWords.clear();
+	Dictionary.clear();
 }
 
 void WordSearch::ReadSimplePuzzle() {
@@ -182,6 +184,7 @@ void WordSearch::SolvePuzzleSimple() {
 					AddWord:
 					if (CurrentWord != "") {
 						FoundWords.push_back(CurrentWord);
+						Dictionary.erase(Dictionary.begin() + WordNumber);
 					}
 					
 				}
