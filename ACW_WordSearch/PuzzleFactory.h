@@ -4,7 +4,7 @@ class PuzzleFactory
 {
 	
 public:
-	const Cell** CreatePuzzle (const char * const filename);
+	static Cell** CreatePuzzle (const char * const filename);
 
 
 private:
@@ -12,8 +12,14 @@ private:
 	PuzzleFactory(const char * const filename) : m_FileName(filename) {};
 	~PuzzleFactory();
 	PuzzleFactory operator=(const PuzzleFactory rhs);
-	const Cell** const GetPuzzle();
+	Cell** GetPuzzle();
 	int m_Size;
 	const char * m_FileName;
+	Cell **m_Puzzle;
+};
+Cell ** CreatePuzzle(const char * const pfilename)
+{
+	PuzzleFactory Factory(pfilename);
+	return Factory.GetPuzzle();
 };
 

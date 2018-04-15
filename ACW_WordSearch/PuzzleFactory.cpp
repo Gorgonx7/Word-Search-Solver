@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-Cell **m_Puzzle;
+
 
 PuzzleFactory::PuzzleFactory(int size)
 {
@@ -28,11 +28,7 @@ PuzzleFactory::PuzzleFactory(const char * const filename)
 }
 
 
-const Cell ** PuzzleFactory::CreatePuzzle(const char * const filename)
-{
-	PuzzleFactory Factory(filename);
-	return Factory.GetPuzzle();
-}
+
 
 PuzzleFactory::~PuzzleFactory()
 {
@@ -45,7 +41,4 @@ PuzzleFactory PuzzleFactory::operator=(const PuzzleFactory rhs)
 	return PuzzleFactory(m_FileName);
 }
 
-const Cell ** const PuzzleFactory::GetPuzzle()
-{
-	return m_Puzzle;
-}
+
