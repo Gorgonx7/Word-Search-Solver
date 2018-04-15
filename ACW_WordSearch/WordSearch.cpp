@@ -14,7 +14,7 @@ char simplePuzzle[simplePuzzleSize][simplePuzzleSize];
 char* puzzelHolder;
 const char* advancedFileName;
 WordSearch::WordSearch(const char * const filename) {
-	// Add your code here
+	
 	advancedFileName = filename;
 }
 
@@ -55,7 +55,12 @@ void WordSearch::ReadSimpleDictionary() {
 }
 
 void WordSearch::ReadAdvancedPuzzle() {
-	// Add your code here
+	/*\
+	|*| TODO
+	|*| Load in all the letters
+	|*| Store them alphabetically in a 26 length array
+	|*| Ensure all the cells are linked correctly 
+	\*/
 }
 
 void WordSearch::ReadAdvancedDictionary() {
