@@ -1,16 +1,19 @@
 #pragma once
 class Cell
 {
+	
 public:
-	Cell(char pCharacter);
+	Cell(const char pCharacter);
+	Cell();
 	~Cell();
 	Cell operator=(const Cell &rhs);
-	Cell& const Next();
+	Cell* Right();
 
-	void SetData(char &Data);
-	char GetData();
+	
 
 private:
-	
+	void SetData(char &Data);
+    char const GetData();
+	char m_Data;
 };
 
