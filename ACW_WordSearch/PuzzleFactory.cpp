@@ -5,6 +5,7 @@
 #include <fstream>
 using namespace std;
 
+Cell** m_Puzzle;
 
 PuzzleFactory::PuzzleFactory(int size)
 {
@@ -15,7 +16,7 @@ PuzzleFactory::PuzzleFactory(int size)
 
 PuzzleFactory::PuzzleFactory(const char * const filename)
 {
-	ifstream Reader(filename);
+	ifstream Reader((std::string(filename)));
 	Reader >> m_Size;
 	m_Puzzle = new Cell*[m_Size * m_Size];
 	char Holder;
@@ -36,9 +37,12 @@ PuzzleFactory::~PuzzleFactory()
 	delete[] m_Puzzle;
 }
 
+
+
 PuzzleFactory PuzzleFactory::operator=(const PuzzleFactory rhs)
 {
-	return PuzzleFactory(m_FileName);
+	m_Puzzle = rhs.m_Puzzle;
+	return *this;
 }
 
 

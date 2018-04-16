@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EC5DEE48-4B4B-4E0C-BA44-97EA3D27A830}</ProjectGuid>
     <RootNamespace>ACWWordSearch</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>bin/debug</OutDir>
+    <OutDir>C:\Users\529548\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,14 +114,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
-    <ClInclude Include="PuzzleFactory.h" />
+    <ClInclude Include="PuzzleAssembler.h" />
+    <ClInclude Include="PuzzleVisitor.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WordSearch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PuzzleFactory.cpp" />
+    <ClCompile Include="PuzzleAssembler.cpp" />
+    <ClCompile Include="PuzzleVisitor.cpp" />
     <ClCompile Include="WordSearch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ACW_WordSearch.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
