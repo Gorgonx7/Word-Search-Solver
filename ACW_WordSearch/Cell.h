@@ -18,7 +18,7 @@ private:
 	void SetData(char &Data);
     char const GetData();
 	char m_Data;
-	bool SolveInDirection(Direction pDirection, std::string pWord);
+	bool SolveInDirection(const Direction pDirection, std::string pWord);
 	
 	inline Cell* Right();
 	inline Cell* Left();

@@ -22,17 +22,93 @@ Cell Cell::operator=(const Cell & rhs)
 	return *this;
 }
 
+// This method checks all the cells finds a direction and then trys to solve in that direction
 bool Cell::Solve(std::string pWord)
 {
-
+	
 	return false;
 }
 
-Cell * Cell::Right()
-{
-	return m_Right;
-}
 
+
+
+
+ bool Cell::SolveInDirection(const Direction pDirection, std::string pWord)
+ {
+	 switch (pDirection) {
+	 
+	 case LEFT:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!Left()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case RIGHT:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!Right()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case DOWN:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (Down()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case UP:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!Up()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case TOPLEFT:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!TopLeft()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case TOPRIGHT:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!TopRight()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case BOTTOMLEFT:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!BottomLeft()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+	 case BOTTOMRIGHT:
+		 if (pWord[0] != GetData()) {
+			 return false;
+		 }
+		 else if (!BottomRight()->SolveInDirection(pDirection, pWord.substr(1))) {
+			 return false;
+		 }
+		 break;
+		 
+	 }
+	 
+	 return true;
+ }
+ 
+ 
+ //Getters and Setters -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 void Cell::SetData(char & Data)
 {
 	m_Data = Data;
@@ -42,53 +118,6 @@ void Cell::SetData(char & Data)
 {
 	return m_Data;
 }
-
- bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
- {
-	 switch (pDirection) {
-	 
-	 case LEFT:
-		 if (pWord[0] != Left()->GetData()) {
-			 return false;
-		 }
-		 else if (Left()->SolveInDirection(pDirection, pWord.substr(1))) {
-
-		 }
-		 break;
-	 case RIGHT:
-		 if (pWord[0] != Right()->GetData())
-			 return false;
-		 break;
-	 case DOWN:
-		 if (pWord[0] != Down()->GetData())
-			 return false;
-		 break;
-	 case UP:
-		 if (pWord[0] != Up()->GetData())
-			 return false;
-		 break;
-	 case TOPLEFT:
-		 if (pWord[0] != TopLeft()->GetData())
-			 return false;
-		 break;
-	 case TOPRIGHT:
-		 if (pWord[0] != TopRight()->GetData())
-			 return false;
-		 break;
-	 case BOTTOMLEFT:
-		 if (pWord[0] != BottomLeft()->GetData())
-			 return false;
-		 break;
-	 case BOTTOMRIGHT:
-		 if (pWord[0] != BottomRight()->GetData())
-			 return false;
-		 break;
-		 
-	 }
-	 
-	 return true;
- }
-
  inline void Cell::SetRight(Cell * pCell)
  {
 	 m_Right = pCell;
@@ -133,7 +162,10 @@ void Cell::SetData(char & Data)
  {
 	 return m_Left;
  }
-
+ inline Cell * Cell::Right()
+ {
+	return m_Right;
+ }
  inline Cell * Cell::Up()
  {
 	 return m_Right;
