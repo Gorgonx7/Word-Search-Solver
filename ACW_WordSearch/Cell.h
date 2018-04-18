@@ -5,7 +5,7 @@ class Cell
 {
 	
 public:
-	Cell(const char pCharacter) : m_Data(pCharacter) {};
+	Cell(const char pCharacter, int pX, int pY) : m_Data(pCharacter), m_X(pX), m_Y(pY) {};
 	Cell();
 	~Cell();
 	Cell operator=(const Cell &rhs);
@@ -18,6 +18,8 @@ private:
 	void SetData(char &Data);
     char const GetData();
 	char m_Data;
+	int m_X;
+	int m_Y;
 	bool SolveInDirection(const Direction pDirection, std::string pWord);
 	
 	inline Cell* Right();
