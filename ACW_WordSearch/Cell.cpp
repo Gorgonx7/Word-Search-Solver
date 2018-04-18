@@ -133,7 +133,7 @@ void Cell::SetData(char & Data)
 	 m_TopLeft = pCell;
  }
 
- inline void Cell::SetUP(Cell * pCell)
+ inline void Cell::SetUp(Cell * pCell)
  {
 	 m_Up = pCell;
  }

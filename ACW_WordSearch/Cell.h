@@ -10,7 +10,7 @@ public:
 	~Cell();
 	Cell operator=(const Cell &rhs);
 	bool Solve(std::string pWord);
-	inline void SetRight(Cell* pCell), SetLeft(Cell* pCell), SetUP(Cell* pCell), SetDown(Cell* pCell), SetTopRight(Cell* pCell), SetTopLeft(Cell* pCell), SetBottomRight(Cell* pCell), SetBottomLeft(Cell* pCell);
+	inline void SetRight(Cell* pCell), SetLeft(Cell* pCell), SetUp(Cell* pCell), SetDown(Cell* pCell), SetTopRight(Cell* pCell), SetTopLeft(Cell* pCell), SetBottomRight(Cell* pCell), SetBottomLeft(Cell* pCell);
 	
 
 private:

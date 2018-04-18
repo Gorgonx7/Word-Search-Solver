@@ -15,22 +15,20 @@ char* puzzelHolder;
 const char* saveFileName;
 bool Advanced = false;
 WordSearch::WordSearch(const char * const filename) {
-	
-	saveFileName = filename;
-	if (filename == "output_advanced.txt") {
 
-	}
+	saveFileName = filename;
+
 }
 
 WordSearch::~WordSearch() {
-	
+
 	FoundWords.clear();
 	Dictionary.clear();
 }
 
 void WordSearch::ReadSimplePuzzle() {
-	
-	
+
+
 	ifstream Reader((std::string(puzzleName)));
 	int simpleSize;
 	Reader >> simpleSize;
@@ -42,8 +40,9 @@ void WordSearch::ReadSimplePuzzle() {
 			}
 		}
 	}
+
 	puzzelHolder = &simplePuzzle[0][0];
-	
+
 }
 
 //This method loads in the dictionary in to a simple vector structure
@@ -63,7 +62,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 	|*| TODO
 	|*| Load in all the letters
 	|*| Store them alphabetically in a 26 length array
-	|*| Ensure all the cells are linked correctly 
+	|*| Ensure all the cells are linked correctly
 	\*/
 }
 
@@ -72,18 +71,18 @@ void WordSearch::ReadAdvancedDictionary() {
 }
 // solves the puzzle simply
 void WordSearch::SolvePuzzleSimple() {
-	
-	
+
+
 	for (int x = 0; x < simplePuzzleSize; ++x) {
 		for (int y = 0; y < simplePuzzleSize; ++y) {
-			const char* const CurrentChar = puzzelHolder + (x * 9) + y;
+			const char* const CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
 			string CurrentWord = "";
-			
+
 			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) {
 				if (Dictionary[WordNumber][0] == *CurrentChar) {
 					//find if it the word
 					CurrentWord += Dictionary[WordNumber][0];
-					if (y != 9) {
+					if (y != simplePuzzleSize && y + Dictionary[WordNumber].size() < simplePuzzleSize) {
 						//right
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++)
 						{
@@ -100,7 +99,8 @@ void WordSearch::SolvePuzzleSimple() {
 							}
 						}
 					}
-					if (y != 0) {
+					if (y != 0 && y - Dictionary[WordNumber].size() > 0) {
+
 						//left
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 							if (Dictionary[WordNumber][letter] == (CurrentChar - letter)[0]) {
@@ -116,106 +116,119 @@ void WordSearch::SolvePuzzleSimple() {
 						}
 					}
 					if (x != simplePuzzleSize - 1) {
-						//down
-						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
-							if (Dictionary[WordNumber][letter] == (CurrentChar + letter * 9)[0]) {
-								CurrentWord += Dictionary[WordNumber][letter];
-							}
-							else {
-								CurrentWord = CurrentChar[0];
-								break;
-							}
-							if (CurrentWord == Dictionary[WordNumber]) {
-								goto AddWord;
-							}
-						}
-						//bottom right
-						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
-							if (Dictionary[WordNumber][letter] == (CurrentChar + letter * 10)[0]) {
-								CurrentWord += Dictionary[WordNumber][letter];
-							}
-							else {
-								CurrentWord = CurrentChar[0];
-								break;
-							}
-							if (CurrentWord == Dictionary[WordNumber]) {
-								goto AddWord;
+						if (x + Dictionary[WordNumber].size() < simplePuzzleSize) {
+							//down
+							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * simplePuzzleSize)[0]) {
+									CurrentWord += Dictionary[WordNumber][letter];
+								}
+								else {
+									CurrentWord = CurrentChar[0];
+									break;
+								}
+								if (CurrentWord == Dictionary[WordNumber]) {
+									goto AddWord;
+								}
 							}
 						}
-						//bottom left
-						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
-							if (Dictionary[WordNumber][letter] == (CurrentChar + letter * 8)[0]) {
-								CurrentWord += Dictionary[WordNumber][letter];
+						if (x + Dictionary[WordNumber].size() < simplePuzzleSize && y + Dictionary[WordNumber].size() < simplePuzzleSize) {
+							//bottom right
+							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize + 1))[0]) {
+									CurrentWord += Dictionary[WordNumber][letter];
+								}
+								else {
+									CurrentWord = CurrentChar[0];
+									break;
+								}
+								if (CurrentWord == Dictionary[WordNumber]) {
+									goto AddWord;
+								}
 							}
-							else {
-								CurrentWord = CurrentChar[0];
-								break;
-							}
-							if (CurrentWord == Dictionary[WordNumber]) {
-								goto AddWord;
+						}
+						if ((x + Dictionary[WordNumber].size() < simplePuzzleSize && y - Dictionary[WordNumber].size() > 0)) {
+							//bottom left
+							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize - 1))[0]) {
+									CurrentWord += Dictionary[WordNumber][letter];
+								}
+								else {
+									CurrentWord = CurrentChar[0];
+									break;
+								}
+								if (CurrentWord == Dictionary[WordNumber]) {
+									goto AddWord;
+								}
 							}
 						}
 					}
 					if (x != 0) {
-						//up
-						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
-							if (Dictionary[WordNumber][letter] == (CurrentChar - letter * 9)[0]) {
-								CurrentWord += Dictionary[WordNumber][letter];
-							}
-							else {
-								CurrentWord = CurrentChar[0];
-								break;
-							}
-							if (CurrentWord == Dictionary[WordNumber]) {
-								goto AddWord;
-							}
-						}
-						//top right
-						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
-							if (Dictionary[WordNumber][letter] == (CurrentChar - letter * 8)[0]) {
-								CurrentWord += Dictionary[WordNumber][letter];
-							}
-							else {
-								CurrentWord = CurrentChar[0];
-								break;
-							}
-							if (CurrentWord == Dictionary[WordNumber]) {
-								goto AddWord;
+						if (x - Dictionary[WordNumber].size() > 0) {
+							//up
+							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * simplePuzzleSize)[0]) {
+									CurrentWord += Dictionary[WordNumber][letter];
+								}
+								else {
+									CurrentWord = CurrentChar[0];
+									break;
+								}
+								if (CurrentWord == Dictionary[WordNumber]) {
+									goto AddWord;
+								}
 							}
 						}
-						//top left
-						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
-							if (Dictionary[WordNumber][letter] == (CurrentChar - letter * 10)[0]) {
-								CurrentWord += Dictionary[WordNumber][letter];
+						if (x - Dictionary[WordNumber].size() > 0 && y + Dictionary[WordNumber].size() < simplePuzzleSize) 
+						{
+							//top right
+							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize - 1))[0]) {
+									CurrentWord += Dictionary[WordNumber][letter];
+								}
+								else {
+									CurrentWord = CurrentChar[0];
+									break;
+								}
+								if (CurrentWord == Dictionary[WordNumber]) {
+									goto AddWord;
+								}
 							}
-							else {
-								CurrentWord = CurrentChar[0];
-								break;
-							}
-							if (CurrentWord == Dictionary[WordNumber]) {
-								goto AddWord;
+						}
+						if (x - Dictionary[WordNumber].size() > 0 || y - Dictionary[WordNumber].size() > 0) {
+							//top left
+							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize + 1))[0]) {
+									CurrentWord += Dictionary[WordNumber][letter];
+								}
+								else {
+									CurrentWord = CurrentChar[0];
+									break;
+								}
+								if (CurrentWord == Dictionary[WordNumber]) {
+									goto AddWord;
+								}
 							}
 						}
 					}
-					
-					
-					
-					
-					
+
+
+
+
+
 					CurrentWord = "";
-					AddWord:
+				AddWord:
 					if (CurrentWord != "") {
 						FoundWords.push_back(CurrentWord);
 						Dictionary.erase(Dictionary.begin() + WordNumber);
 					}
-					
+
 				}
 			}
-			
-			
+
+
 		}
 	}
-	
+
 }
 
 void WordSearch::SolvePuzzleAdvanced() {
@@ -223,12 +236,27 @@ void WordSearch::SolvePuzzleAdvanced() {
 }
 
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {
+	ofstream Writer(saveFileName);
+	Writer << "Load Time: " << loadTime << endl;
+	Writer << "Solve Time:" << solveTime << endl;
+	Writer << "Found " << FoundWords.size() << " words!" << endl;
+	for each(string i in FoundWords) {
+		Writer << i << endl;
+	}
+	Writer << "Read in " << Dictionary.size() + FoundWords.size() << " words from the dictionary" << endl;
+	Writer << "Unfound Words: " << endl;
+	for each(string i in Dictionary) {
+		Writer << i << endl;
+	}
+
+
 	cout << "Load Time: " << loadTime << endl;
 	cout << "Solve Time:" << solveTime << endl;
 	cout << "Found " << FoundWords.size() << " words!" << endl;
 	for each(string i in FoundWords) {
 		cout << i << endl;
 	}
-	cout << "Read in " << Dictionary.size() << " words from the dictionary" << endl;
+
+	cout << "Read in " << Dictionary.size() + FoundWords.size() << " words from the dictionary" << endl;
 
 }

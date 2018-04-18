@@ -16,11 +16,30 @@ PuzzleAssembler::PuzzleAssembler(const char * const filename)
 	int y = 0;
 	while (Reader >> Holder) {
 		Cell * Temp = new Cell(Holder, x, y);
+		if (x != 0) {
+			//Temp->SetUP(&Data[(x * 9) + y - m_Size]);
+			//Temp->SetTopLeft(&Data[(x * 9) + y - (m_Size + 1)]);
+			//Temp->SetTopRight(&Data[(x * 9) + y - (m_Size - 1)]);
+			
+
+		}
+		if (x != m_Size) {
+
+		}
+		if (y != 0) {
+
+		}
+		if (y != m_Size) {
+
+		}
+
+
 		y++;
 		if (y > m_Size - 1) {
 			x++;
 			y = 0;
 		}
+
 	}
 }
 
