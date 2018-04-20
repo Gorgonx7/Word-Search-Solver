@@ -1,5 +1,5 @@
 #include "WordSearch.h"
-
+#include "Cell.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,6 +14,35 @@ char simplePuzzle[simplePuzzleSize][simplePuzzleSize];
 char* puzzelHolder;
 const char* saveFileName;
 bool Advanced = false;
+vector<Cell *> Alphabet[26] = {
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0),
+	vector<Cell *>(0)
+};
+int m_Size;
 WordSearch::WordSearch(const char * const filename) {
 
 	saveFileName = filename;
@@ -64,6 +93,51 @@ void WordSearch::ReadAdvancedPuzzle() {
 	|*| Store them alphabetically in a 26 length array
 	|*| Ensure all the cells are linked correctly
 	\*/
+	ifstream Reader((std::string(puzzleName)));
+	Reader >> m_Size;
+	char Holder;
+	Cell* Data = new Cell[m_Size * m_Size];
+	int x = 0;
+	int y = 0;
+	while (Reader >> Holder) {
+		Cell * Temp = new Cell(Holder, x, y);
+		if (x != 0) {
+			Temp->SetUp(&Data[(x * m_Size) + y - m_Size]);
+			if (y != 0) {
+				Temp->SetTopLeft(&Data[(x * m_Size) + y - (m_Size + 1)]);
+			}
+			if (y != m_Size - 1) {
+				Temp->SetTopRight(&Data[(x * m_Size) + y - (m_Size - 1)]);
+			}
+		}
+		if (x != m_Size - 1)
+		{
+			Temp->SetDown(&Data[(x * m_Size) + y + m_Size]);
+			if (y != 0) {
+				Temp->SetBottomLeft(&Data[(x * m_Size) + y + (m_Size - 1)]);
+			}
+			if (y != m_Size - 1) {
+				Temp->SetBottomRight(&Data[(x * m_Size) + y + (m_Size + 1)]);
+			}
+		}
+		if (y != 0) {
+			Temp->SetLeft(&Data[(x * m_Size) + (y - 1)]);
+
+		}
+		if (y != m_Size - 1) {
+			Temp->SetRight(&Data[(x * m_Size) + (y + 1)]);
+		}
+		
+		int index = Holder - 'A';
+		Alphabet[index].push_back(Temp);
+
+		y++;
+		if (y > m_Size - 1) {
+			x++;
+			y = 0;
+		}
+
+	}
 }
 
 void WordSearch::ReadAdvancedDictionary() {
@@ -232,7 +306,7 @@ void WordSearch::SolvePuzzleSimple() {
 }
 
 void WordSearch::SolvePuzzleAdvanced() {
-	// Add your code here
+	// for every word in the dictionary cast the first letter to the 
 }
 
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {

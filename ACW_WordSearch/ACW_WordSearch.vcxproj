@@ -117,7 +117,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
-    <ClInclude Include="PuzzleAssembler.h" />
     <ClInclude Include="PuzzleVisitor.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WordSearch.h" />
@@ -125,7 +124,6 @@
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PuzzleAssembler.cpp" />
     <ClCompile Include="PuzzleVisitor.cpp" />
     <ClCompile Include="WordSearch.cpp" />
   </ItemGroup>

@@ -118,37 +118,37 @@ void Cell::SetData(char & Data)
 {
 	return m_Data;
 }
- inline void Cell::SetRight(Cell * pCell)
+  void Cell::SetRight(Cell * pCell)
  {
 	 m_Right = pCell;
  }
 
- inline void Cell::SetLeft(Cell * pCell)
+  void Cell::SetLeft(Cell * pCell)
  {
 	 m_Left = pCell;
  }
 
- inline void Cell::SetTopLeft(Cell * pCell)
+  void Cell::SetTopLeft(Cell * pCell)
  {
 	 m_TopLeft = pCell;
  }
 
- inline void Cell::SetUp(Cell * pCell)
+  void Cell::SetUp(Cell * pCell)
  {
 	 m_Up = pCell;
  }
 
- inline void Cell::SetDown(Cell * pCell)
+  void Cell::SetDown(Cell * pCell)
  {
 	 m_Down = pCell;
  }
 
- inline void Cell::SetTopRight(Cell * pCell)
+  void Cell::SetTopRight(Cell * pCell)
  {
 	 m_TopRight = pCell;
  }
 
- inline void Cell::SetBottomLeft(Cell * pCell)
+  void Cell::SetBottomLeft(Cell * pCell)
  {
 	 m_BottomLeft = pCell;
  }
@@ -158,40 +158,40 @@ void Cell::SetData(char & Data)
 	 m_BottomRight = pCell;
  }
 
- inline Cell * Cell::Left()
+  Cell * Cell::Left()
  {
 	 return m_Left;
  }
- inline Cell * Cell::Right()
+  Cell * Cell::Right()
  {
 	return m_Right;
  }
- inline Cell * Cell::Up()
+  Cell * Cell::Up()
  {
 	 return m_Right;
  }
 
- inline Cell * Cell::Down()
+  Cell * Cell::Down()
  {
 	 return m_Down;
  }
 
- inline Cell * Cell::TopLeft()
+  Cell * Cell::TopLeft()
  {
 	 return m_TopLeft;
  }
 
- inline Cell * Cell::TopRight()
+  Cell * Cell::TopRight()
  {
 	 return m_TopRight;
  }
 
- inline Cell * Cell::BottomLeft()
+  Cell * Cell::BottomLeft()
  {
 	 return m_BottomLeft;
  }
 
- inline Cell * Cell::BottomRight()
+  Cell * Cell::BottomRight()
  {
 	 return m_BottomRight;
  }
