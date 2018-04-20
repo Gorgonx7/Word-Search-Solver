@@ -22,12 +22,12 @@ public:
 	void SetTopLeft(Cell* pCell);
 	void SetBottomRight(Cell* pCell);
 	void SetBottomLeft(Cell* pCell);
-	
+	char const GetData();
 
 private:
 	
 	void SetData(char &Data);
-    char const GetData();
+    
 	char m_Data;
 	int m_X;
 	int m_Y;
@@ -41,13 +41,13 @@ private:
 	Cell* TopRight();
 	Cell* BottomLeft();
 	Cell* BottomRight();
-	Cell* m_Right;
-	Cell* m_Left;
-	Cell* m_Up;
-	Cell* m_Down;
-	Cell* m_TopLeft;
-	Cell* m_TopRight;
-	Cell* m_BottomLeft;
-	Cell* m_BottomRight;
+	Cell* m_Right = nullptr;
+	Cell* m_Left = nullptr;
+	Cell* m_Up = nullptr;
+	Cell* m_Down = nullptr;
+	Cell* m_TopLeft = nullptr;
+	Cell* m_TopRight = nullptr;
+	Cell* m_BottomLeft = nullptr;
+	Cell* m_BottomRight = nullptr;
 };
 

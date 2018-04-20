@@ -1,5 +1,6 @@
 #include "Cell.h"
-
+#include <iostream>
+#include <assert.h>
 Cell* m_Right;
 char m_Data;
 
@@ -23,9 +24,10 @@ Cell Cell::operator=(const Cell & rhs)
 // This method checks all the cells finds a direction and then trys to solve in that direction
 bool Cell::Solve(std::string pWord)
 {
+	
 	char Letter = pWord[0];
 	if (Letter == m_Data) {
-		if(SolveInDirection(LEFT, pWord.substr(1)) || SolveInDirection(RIGHT, pWord.substr(1)) || SolveInDirection(DOWN, pWord.substr(1)) || SolveInDirection(UP, pWord.substr(1)) || SolveInDirection(TOPLEFT, pWord.substr(1)) || SolveInDirection(TOPRIGHT, pWord.substr(1)) || SolveInDirection(BOTTOMLEFT, pWord.substr(1)) || SolveInDirection(BOTTOMRIGHT, pWord.substr(1))){
+		if (SolveInDirection(LEFT, pWord) || SolveInDirection(RIGHT, pWord) || SolveInDirection(DOWN, pWord) || SolveInDirection(UP, pWord) || SolveInDirection(TOPLEFT, pWord) || SolveInDirection(TOPRIGHT, pWord) || SolveInDirection(BOTTOMLEFT, pWord) || SolveInDirection(BOTTOMRIGHT, pWord)) {
 			return true;
 		}
 	}
@@ -36,165 +38,211 @@ bool Cell::Solve(std::string pWord)
 
 
 
- bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
- {
-	 switch (pDirection) {
-	 
-	 case LEFT:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!Left()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case RIGHT:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!Right()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case DOWN:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (Down()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case UP:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!Up()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case TOPLEFT:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!TopLeft()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case TOPRIGHT:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!TopRight()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case BOTTOMLEFT:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!BottomLeft()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-	 case BOTTOMRIGHT:
-		 if (pWord[0] != GetData()) {
-			 return false;
-		 }
-		 else if (!BottomRight()->SolveInDirection(pDirection, pWord.substr(1))) {
-			 return false;
-		 }
-		 break;
-		 
-	 }
-	 
-	 return true;
- }
- 
- 
- //Getters and Setters -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
+{
+	if (pWord == "") {
+		std::cout << pDirection;
+		return true;
+	}
+	char holder = GetData();
+
+	switch (pDirection) {
+
+	case LEFT:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (Left() != nullptr) {
+			if (!Left()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case RIGHT:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (Right() != nullptr) {
+			if (!Right()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case DOWN:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (Down() != nullptr) {
+			if (!Down()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case UP:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (Up() != nullptr) {
+			if (!Up()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case TOPLEFT:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (TopLeft() != nullptr) {
+			if (!TopLeft()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case TOPRIGHT:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (TopRight() != nullptr) {
+			if (!TopRight()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case BOTTOMLEFT:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (BottomLeft() != nullptr) {
+			if (!BottomLeft()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+	case BOTTOMRIGHT:
+		if (pWord[0] != holder) {
+			return false;
+		}
+		else if (BottomRight() != nullptr) {
+			if (!BottomRight()->SolveInDirection(pDirection, pWord.substr(1))) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		break;
+
+	}
+
+	return true;
+}
+
+
+//Getters and Setters -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 void Cell::SetData(char & Data)
 {
 	m_Data = Data;
 }
 
- char const Cell::GetData()
+char const Cell::GetData()
 {
 	return m_Data;
 }
-  void Cell::SetRight(Cell * pCell)
- {
-	 m_Right = pCell;
- }
+void Cell::SetRight(Cell * pCell)
+{
+	m_Right = pCell;
+}
 
-  void Cell::SetLeft(Cell * pCell)
- {
-	 m_Left = pCell;
- }
+void Cell::SetLeft(Cell * pCell)
+{
+	m_Left = pCell;
+}
 
-  void Cell::SetTopLeft(Cell * pCell)
- {
-	 m_TopLeft = pCell;
- }
+void Cell::SetTopLeft(Cell * pCell)
+{
+	m_TopLeft = pCell;
+}
 
-  void Cell::SetUp(Cell * pCell)
- {
-	 m_Up = pCell;
- }
+void Cell::SetUp(Cell * pCell)
+{
+	m_Up = pCell;
+}
 
-  void Cell::SetDown(Cell * pCell)
- {
-	 m_Down = pCell;
- }
+void Cell::SetDown(Cell * pCell)
+{
+	m_Down = pCell;
+}
 
-  void Cell::SetTopRight(Cell * pCell)
- {
-	 m_TopRight = pCell;
- }
+void Cell::SetTopRight(Cell * pCell)
+{
+	m_TopRight = pCell;
+}
 
-  void Cell::SetBottomLeft(Cell * pCell)
- {
-	 m_BottomLeft = pCell;
- }
+void Cell::SetBottomLeft(Cell * pCell)
+{
+	m_BottomLeft = pCell;
+}
 
- void Cell::SetBottomRight(Cell * pCell)
- {
-	 m_BottomRight = pCell;
- }
+void Cell::SetBottomRight(Cell * pCell)
+{
+	m_BottomRight = pCell;
+}
 
-  Cell * Cell::Left()
- {
-	 return m_Left;
- }
-  Cell * Cell::Right()
- {
+Cell * Cell::Left()
+{
+	return m_Left;
+}
+Cell * Cell::Right()
+{
 	return m_Right;
- }
-  Cell * Cell::Up()
- {
-	 return m_Right;
- }
+}
+Cell * Cell::Up()
+{
+	return m_Right;
+}
 
-  Cell * Cell::Down()
- {
-	 return m_Down;
- }
+Cell * Cell::Down()
+{
+	return m_Down;
+}
 
-  Cell * Cell::TopLeft()
- {
-	 return m_TopLeft;
- }
+Cell * Cell::TopLeft()
+{
+	return m_TopLeft;
+}
 
-  Cell * Cell::TopRight()
- {
-	 return m_TopRight;
- }
+Cell * Cell::TopRight()
+{
+	return m_TopRight;
+}
 
-  Cell * Cell::BottomLeft()
- {
-	 return m_BottomLeft;
- }
+Cell * Cell::BottomLeft()
+{
+	return m_BottomLeft;
+}
 
-  Cell * Cell::BottomRight()
- {
-	 return m_BottomRight;
- }
+Cell * Cell::BottomRight()
+{
+	return m_BottomRight;
+}

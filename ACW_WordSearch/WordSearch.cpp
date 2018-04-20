@@ -52,7 +52,7 @@ WordSearch::WordSearch(const char * const filename) {
 WordSearch::~WordSearch() {
 
 	FoundWords.clear();
-	Dictionary.clear();
+//	Dictionary.clear();
 }
 
 void WordSearch::ReadSimplePuzzle() {
@@ -101,42 +101,57 @@ void WordSearch::ReadAdvancedPuzzle() {
 	int y = 0;
 	while (Reader >> Holder) {
 		Cell * Temp = new Cell(Holder, x, y);
-		if (x != 0) {
-			Temp->SetUp(&Data[(x * m_Size) + y - m_Size]);
-			if (y != 0) {
-				Temp->SetTopLeft(&Data[(x * m_Size) + y - (m_Size + 1)]);
-			}
-			if (y != m_Size - 1) {
-				Temp->SetTopRight(&Data[(x * m_Size) + y - (m_Size - 1)]);
-			}
-		}
-		if (x != m_Size - 1)
-		{
-			Temp->SetDown(&Data[(x * m_Size) + y + m_Size]);
-			if (y != 0) {
-				Temp->SetBottomLeft(&Data[(x * m_Size) + y + (m_Size - 1)]);
-			}
-			if (y != m_Size - 1) {
-				Temp->SetBottomRight(&Data[(x * m_Size) + y + (m_Size + 1)]);
-			}
-		}
-		if (y != 0) {
-			Temp->SetLeft(&Data[(x * m_Size) + (y - 1)]);
-
-		}
-		if (y != m_Size - 1) {
-			Temp->SetRight(&Data[(x * m_Size) + (y + 1)]);
-		}
-		
-		int index = Holder - 'A';
-		Alphabet[index].push_back(Temp);
-
+		Temp->SetLeft(nullptr);
+		Temp->SetRight(nullptr);
+		Temp->SetUp(nullptr);
+		Temp->SetDown(nullptr);
+		Temp->SetTopLeft(nullptr);
+		Temp->SetTopRight(nullptr);
+		Temp->SetBottomLeft(nullptr);
+		Temp->SetBottomRight(nullptr);
+		Data[x * m_Size + y] = *Temp;
 		y++;
 		if (y > m_Size - 1) {
 			x++;
 			y = 0;
 		}
 
+	}
+	for (int x = 0; x < m_Size; x++) {
+		for (int y = 0; y < m_Size; y++) {
+			Cell* Temp = &Data[x * m_Size + y];
+			if (x != 0) {
+				Temp->SetUp(&Data[(x * m_Size) + y - m_Size]);
+				if (y != 0) {
+					Temp->SetTopLeft(&Data[(x * m_Size) + y - (m_Size + 1)]);
+				}
+				if (y != m_Size - 1) {
+					Temp->SetTopRight(&Data[(x * m_Size) + y - (m_Size - 1)]);
+				}
+			}
+			if (x != m_Size - 1)
+			{
+				Temp->SetDown(&Data[(x * m_Size) + y + m_Size]);
+				if (y != 0) {
+					Temp->SetBottomLeft(&Data[(x * m_Size) + y + (m_Size - 1)]);
+				}
+				if (y != m_Size - 1) {
+					Temp->SetBottomRight(&Data[(x * m_Size) + y + (m_Size + 1)]);
+				}
+			}
+			if (y != 0) {
+				Temp->SetLeft(&Data[(x * m_Size) + (y - 1)]);
+
+			}
+			if (y != m_Size - 1) {
+				Temp->SetRight(&Data[(x * m_Size) + (y + 1)]);
+			}
+			char Holder = Temp->GetData();
+			int index = Holder - 'A';
+			Alphabet[index].push_back(Temp);
+
+			
+		}
 	}
 }
 
@@ -169,6 +184,7 @@ void WordSearch::SolvePuzzleSimple() {
 								break;
 							}
 							if (CurrentWord == Dictionary[WordNumber]) {
+								cout << "RIGHT ";
 								goto AddWord;
 							}
 						}
@@ -185,6 +201,7 @@ void WordSearch::SolvePuzzleSimple() {
 								break;
 							}
 							if (CurrentWord == Dictionary[WordNumber]) {
+								cout << "LEFT ";
 								goto AddWord;
 							}
 						}
@@ -201,6 +218,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
+									cout << "DOWN ";
 									goto AddWord;
 								}
 							}
@@ -216,6 +234,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
+									cout << "BOTTOM RIGHT ";
 									goto AddWord;
 								}
 							}
@@ -231,6 +250,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
+									cout << "BOTTOM LEFT ";
 									goto AddWord;
 								}
 							}
@@ -248,6 +268,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
+									cout << "UP ";
 									goto AddWord;
 								}
 							}
@@ -264,6 +285,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
+									cout << "TOP RIGHT ";
 									goto AddWord;
 								}
 							}
@@ -279,6 +301,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
+									cout << "TOP LEFT ";
 									goto AddWord;
 								}
 							}
@@ -307,19 +330,21 @@ void WordSearch::SolvePuzzleSimple() {
 
 void WordSearch::SolvePuzzleAdvanced() {
 	// for every word in the dictionary cast the first letter to the 
-	int WordNumber = 0;
-	for each(string word in Dictionary) {
-		for(int x = 0; x < Alphabet[word[0] - 'A'].size(); x++) {
-			if (Alphabet[word[0] - 'A'][x]->Solve(word)) {
+	
+	for (int word = 0; word < Dictionary.size(); word++) {
+		for(int x = 0; x < Alphabet[Dictionary[word][0] - 'A'].size(); x++) {
+			
+			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word])) {
+				FoundWords.push_back(Dictionary[word]);
 				break;
 			}
 			else {
-				FoundWords.push_back(word);
-				Dictionary.erase(Dictionary.begin() + WordNumber);
+				
+				
 			}
 			
 		}
-		WordNumber++;
+		
 	}
 }
 
