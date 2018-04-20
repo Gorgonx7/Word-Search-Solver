@@ -2,9 +2,7 @@
 
 Cell* m_Right;
 char m_Data;
-enum Direction{
-	LEFT, RIGHT, UP, DOWN, TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT
-};
+
 
 Cell::Cell()
 {
@@ -25,7 +23,12 @@ Cell Cell::operator=(const Cell & rhs)
 // This method checks all the cells finds a direction and then trys to solve in that direction
 bool Cell::Solve(std::string pWord)
 {
-	
+	char Letter = pWord[0];
+	if (Letter == m_Data) {
+		if(SolveInDirection(LEFT, pWord.substr(1)) || SolveInDirection(RIGHT, pWord.substr(1)) || SolveInDirection(DOWN, pWord.substr(1)) || SolveInDirection(UP, pWord.substr(1)) || SolveInDirection(TOPLEFT, pWord.substr(1)) || SolveInDirection(TOPRIGHT, pWord.substr(1)) || SolveInDirection(BOTTOMLEFT, pWord.substr(1)) || SolveInDirection(BOTTOMRIGHT, pWord.substr(1))){
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -33,7 +36,7 @@ bool Cell::Solve(std::string pWord)
 
 
 
- bool Cell::SolveInDirection(const Direction pDirection, std::string pWord)
+ bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
  {
 	 switch (pDirection) {
 	 

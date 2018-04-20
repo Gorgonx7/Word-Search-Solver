@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
+enum Direction {
+	LEFT, RIGHT, UP, DOWN, TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT
+};
 class Cell
 {
 	friend class PuzzleAssembler;
@@ -22,13 +25,13 @@ public:
 	
 
 private:
-	enum Direction;
+	
 	void SetData(char &Data);
     char const GetData();
 	char m_Data;
 	int m_X;
 	int m_Y;
-	bool SolveInDirection(const Direction pDirection, std::string pWord);
+	bool SolveInDirection(Direction pDirection, std::string pWord);
 	
 	Cell* Right();
 	Cell* Left();

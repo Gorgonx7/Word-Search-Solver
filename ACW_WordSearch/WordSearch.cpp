@@ -293,7 +293,7 @@ void WordSearch::SolvePuzzleSimple() {
 				AddWord:
 					if (CurrentWord != "") {
 						FoundWords.push_back(CurrentWord);
-						Dictionary.erase(Dictionary.begin() + WordNumber);
+						//Dictionary.erase(Dictionary.begin() + WordNumber);
 					}
 
 				}
@@ -307,6 +307,20 @@ void WordSearch::SolvePuzzleSimple() {
 
 void WordSearch::SolvePuzzleAdvanced() {
 	// for every word in the dictionary cast the first letter to the 
+	int WordNumber = 0;
+	for each(string word in Dictionary) {
+		for(int x = 0; x < Alphabet[word[0] - 'A'].size(); x++) {
+			if (Alphabet[word[0] - 'A'][x]->Solve(word)) {
+				break;
+			}
+			else {
+				FoundWords.push_back(word);
+				Dictionary.erase(Dictionary.begin() + WordNumber);
+			}
+			
+		}
+		WordNumber++;
+	}
 }
 
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {
