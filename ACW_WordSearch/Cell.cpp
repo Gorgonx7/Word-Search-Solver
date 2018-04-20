@@ -1,5 +1,7 @@
 #include "Cell.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 #include <assert.h>
 Cell* m_Right;
 char m_Data;
@@ -40,7 +42,11 @@ bool Cell::Solve(std::string pWord)
 
 bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
 {
-	if (pWord == "") {
+	std::stringstream SS;
+	SS << GetData();
+	std::string S;
+	SS >> S;
+	if (pWord == S) {
 		std::cout << pDirection;
 		return true;
 	}
