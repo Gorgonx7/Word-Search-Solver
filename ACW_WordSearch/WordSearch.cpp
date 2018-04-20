@@ -82,7 +82,7 @@ void WordSearch::SolvePuzzleSimple() {
 				if (Dictionary[WordNumber][0] == *CurrentChar) {
 					//find if it the word
 					CurrentWord += Dictionary[WordNumber][0];
-					if (y != simplePuzzleSize && y + Dictionary[WordNumber].size() < simplePuzzleSize) {
+					if (y != simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) {
 						//right
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++)
 						{
@@ -99,7 +99,7 @@ void WordSearch::SolvePuzzleSimple() {
 							}
 						}
 					}
-					if (y != 0 && y - Dictionary[WordNumber].size() > 0) {
+					if (y != 0 && y - Dictionary[WordNumber].size() >= 0) {
 
 						//left
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
@@ -116,7 +116,7 @@ void WordSearch::SolvePuzzleSimple() {
 						}
 					}
 					if (x != simplePuzzleSize - 1) {
-						if (x + Dictionary[WordNumber].size() < simplePuzzleSize) {
+						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize) {
 							//down
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * simplePuzzleSize)[0]) {
@@ -131,7 +131,7 @@ void WordSearch::SolvePuzzleSimple() {
 								}
 							}
 						}
-						if (x + Dictionary[WordNumber].size() < simplePuzzleSize && y + Dictionary[WordNumber].size() < simplePuzzleSize) {
+						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) {
 							//bottom right
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize + 1))[0]) {
@@ -146,7 +146,7 @@ void WordSearch::SolvePuzzleSimple() {
 								}
 							}
 						}
-						if ((x + Dictionary[WordNumber].size() < simplePuzzleSize && y - Dictionary[WordNumber].size() > 0)) {
+						if ((x + Dictionary[WordNumber].size() <= simplePuzzleSize && y - Dictionary[WordNumber].size() >= 0)) {
 							//bottom left
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize - 1))[0]) {
@@ -163,7 +163,7 @@ void WordSearch::SolvePuzzleSimple() {
 						}
 					}
 					if (x != 0) {
-						if (x - Dictionary[WordNumber].size() > 0) {
+						if (x - Dictionary[WordNumber].size() >= 0) {
 							//up
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * simplePuzzleSize)[0]) {
@@ -178,7 +178,7 @@ void WordSearch::SolvePuzzleSimple() {
 								}
 							}
 						}
-						if (x - Dictionary[WordNumber].size() > 0 && y + Dictionary[WordNumber].size() < simplePuzzleSize) 
+						if (x - Dictionary[WordNumber].size() >= 0 && y + Dictionary[WordNumber].size() <= simplePuzzleSize) 
 						{
 							//top right
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
@@ -194,7 +194,7 @@ void WordSearch::SolvePuzzleSimple() {
 								}
 							}
 						}
-						if (x - Dictionary[WordNumber].size() > 0 || y - Dictionary[WordNumber].size() > 0) {
+						if (x - Dictionary[WordNumber].size() >= 0 && y - Dictionary[WordNumber].size() >= 0) {
 							//top left
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize + 1))[0]) {
