@@ -98,7 +98,8 @@ bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
 			return false;
 		}
 		else if (Up() != nullptr) {
-			if (!Up()->SolveInDirection(pDirection, pWord.substr(1))) {
+			if (!Up()->SolveInDirection(pDirection, pWord.substr(1))) 
+			{
 				return false;
 			}
 		}
