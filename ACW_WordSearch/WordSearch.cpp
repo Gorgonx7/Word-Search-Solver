@@ -184,7 +184,7 @@ void WordSearch::SolvePuzzleSimple() {
 								break;
 							}
 							if (CurrentWord == Dictionary[WordNumber]) {
-								cout << "RIGHT ";
+								//cout << "RIGHT ";
 								goto AddWord;
 							}
 						}
@@ -201,7 +201,7 @@ void WordSearch::SolvePuzzleSimple() {
 								break;
 							}
 							if (CurrentWord == Dictionary[WordNumber]) {
-								cout << "LEFT ";
+								//cout << "LEFT ";
 								goto AddWord;
 							}
 						}
@@ -218,7 +218,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
-									cout << "DOWN ";
+									//cout << "DOWN ";
 									goto AddWord;
 								}
 							}
@@ -234,7 +234,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
-									cout << "BOTTOM_RIGHT ";
+									//cout << "BOTTOM_RIGHT ";
 									goto AddWord;
 								}
 							}
@@ -250,7 +250,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
-									cout << "BOTTOM_LEFT ";
+									//cout << "BOTTOM_LEFT ";
 									goto AddWord;
 								}
 							}
@@ -268,7 +268,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
-									cout << "UP ";
+									//cout << "UP ";
 									goto AddWord;
 								}
 							}
@@ -285,7 +285,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
-									cout << "TOP_RIGHT ";
+									//cout << "TOP_RIGHT ";
 									goto AddWord;
 								}
 							}
@@ -301,7 +301,7 @@ void WordSearch::SolvePuzzleSimple() {
 									break;
 								}
 								if (CurrentWord == Dictionary[WordNumber]) {
-									cout << "TOP_LEFT ";
+									//cout << "TOP_LEFT ";
 									goto AddWord;
 								}
 							}

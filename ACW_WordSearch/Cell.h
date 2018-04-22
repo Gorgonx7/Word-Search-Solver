@@ -14,33 +14,70 @@ public:
 	~Cell();
 	Cell operator=(const Cell &rhs);
 	bool Solve(std::string pWord);
-	void SetRight(Cell* pCell);
-	void SetLeft(Cell* pCell);
-	void SetUp(Cell* pCell);
-	void SetDown(Cell* pCell);
-	void SetTopRight(Cell* pCell);
-	void SetTopLeft(Cell* pCell);
-	void SetBottomRight(Cell* pCell);
-	void SetBottomLeft(Cell* pCell);
-	char const GetData();
+	inline void SetRight(Cell* pCell) {
+		m_Right = pCell;
+	};
+	inline void SetLeft(Cell* pCell) {
+		m_Left = pCell;
+	};
+	inline void SetUp(Cell* pCell) {
+		m_Up = pCell;
+	};
+	inline void SetDown(Cell* pCell) {
+		m_Down = pCell;
+	};
+	inline void SetTopRight(Cell* pCell) {
+		m_TopRight = pCell;
+	};
+	inline void SetTopLeft(Cell* pCell) {
+		m_TopLeft = pCell;
+	}
+	;
+	inline void SetBottomRight(Cell* pCell) {
+		m_BottomRight = pCell;
+	};
+	inline void SetBottomLeft(Cell* pCell) {
+		m_BottomLeft = pCell;
+	};
+	inline char const GetData() {
+		return m_Data;
+	};
 
 private:
 	
-	void SetData(char &Data);
+	inline void SetData(char &Data) {
+		m_Data = Data;
+	};
     
 	char m_Data;
-	int m_X;
-	int m_Y;
+	int m_X = 0;
+	int m_Y = 0;
 	bool SolveInDirection(Direction pDirection, std::string pWord);
 	
-	Cell* Right();
-	Cell* Left();
-	Cell* Up();
-	Cell* Down();
-	Cell* TopLeft();
-	Cell* TopRight();
-	Cell* BottomLeft();
-	Cell* BottomRight();
+	inline Cell* Right() {
+		return m_Right;
+	};
+	inline Cell* Left() {
+		return m_Left;
+	};
+	inline Cell* Up() {
+		return m_Up;
+	};
+	inline Cell* Down() {
+		return m_Down;
+	};
+	inline Cell* TopLeft() {
+		return m_TopLeft;
+	};
+	inline Cell* TopRight() {
+		return m_TopRight;
+	};
+	inline Cell* BottomLeft() {
+		return m_BottomLeft;
+	};
+	inline Cell* BottomRight() {
+		return m_BottomRight;
+	};
 	Cell* m_Right = nullptr;
 	Cell* m_Left = nullptr;
 	Cell* m_Up = nullptr;

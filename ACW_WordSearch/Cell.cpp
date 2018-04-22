@@ -1,10 +1,4 @@
 #include "Cell.h"
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <assert.h>
-Cell* m_Right;
-char m_Data;
 
 
 Cell::Cell()
@@ -27,12 +21,11 @@ Cell Cell::operator=(const Cell & rhs)
 bool Cell::Solve(std::string pWord)
 {
 	
-	char Letter = pWord[0];
-	if (Letter == m_Data) {
+	
 		if (SolveInDirection(LEFT, pWord) || SolveInDirection(RIGHT, pWord) || SolveInDirection(DOWN, pWord) || SolveInDirection(UP, pWord) || SolveInDirection(TOPLEFT, pWord) || SolveInDirection(TOPRIGHT, pWord) || SolveInDirection(BOTTOMLEFT, pWord) || SolveInDirection(BOTTOMRIGHT, pWord)) {
 			return true;
 		}
-	}
+	
 	return false;
 }
 
@@ -42,12 +35,8 @@ bool Cell::Solve(std::string pWord)
 
 bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
 {
-	std::stringstream SS;
-	SS << GetData();
-	std::string S;
-	SS >> S;
-	if (pWord == S) {
-		std::cout << pDirection;
+	if (pWord[pWord.size() - 1] == GetData()) {
+		
 		return true;
 	}
 	char holder = GetData();
@@ -163,93 +152,4 @@ bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
 	}
 
 	return true;
-}
-
-
-//Getters and Setters -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-void Cell::SetData(char & Data)
-{
-	m_Data = Data;
-}
-
-char const Cell::GetData()
-{
-	return m_Data;
-}
-void Cell::SetRight(Cell * pCell)
-{
-	m_Right = pCell;
-}
-
-void Cell::SetLeft(Cell * pCell)
-{
-	m_Left = pCell;
-}
-
-void Cell::SetTopLeft(Cell * pCell)
-{
-	m_TopLeft = pCell;
-}
-
-void Cell::SetUp(Cell * pCell)
-{
-	m_Up = pCell;
-}
-
-void Cell::SetDown(Cell * pCell)
-{
-	m_Down = pCell;
-}
-
-void Cell::SetTopRight(Cell * pCell)
-{
-	m_TopRight = pCell;
-}
-
-void Cell::SetBottomLeft(Cell * pCell)
-{
-	m_BottomLeft = pCell;
-}
-
-void Cell::SetBottomRight(Cell * pCell)
-{
-	m_BottomRight = pCell;
-}
-
-Cell * Cell::Left()
-{
-	return m_Left;
-}
-Cell * Cell::Right()
-{
-	return m_Right;
-}
-Cell * Cell::Up()
-{
-	return m_Right;
-}
-
-Cell * Cell::Down()
-{
-	return m_Down;
-}
-
-Cell * Cell::TopLeft()
-{
-	return m_TopLeft;
-}
-
-Cell * Cell::TopRight()
-{
-	return m_TopRight;
-}
-
-Cell * Cell::BottomLeft()
-{
-	return m_BottomLeft;
-}
-
-Cell * Cell::BottomRight()
-{
-	return m_BottomRight;
 }
