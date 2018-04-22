@@ -5,11 +5,13 @@
 #include <vector>
 #include <string>
 #include <assert.h>
+#include <algorithm>
 using namespace std;
 vector<string> Dictionary;
 vector<string> FoundWords;
+vector<string> UnfoundWords;
 bool debug = true;
-const int simplePuzzleSize = 9;
+const int simplePuzzleSize = 50;
 char simplePuzzle[simplePuzzleSize][simplePuzzleSize];
 char* puzzelHolder;
 const char* saveFileName;
@@ -52,7 +54,8 @@ WordSearch::WordSearch(const char * const filename) {
 WordSearch::~WordSearch() {
 
 	FoundWords.clear();
-//	Dictionary.clear();
+	UnfoundWords.clear();
+	//	Dictionary.clear();
 }
 
 void WordSearch::ReadSimplePuzzle() {
@@ -61,7 +64,7 @@ void WordSearch::ReadSimplePuzzle() {
 	ifstream Reader((std::string(puzzleName)));
 	int simpleSize;
 	Reader >> simpleSize;
-	assert(simpleSize == simplePuzzleSize);
+
 	if (Reader.is_open()) {
 		for (int x = 0; x < simplePuzzleSize; ++x) {
 			for (int y = 0; y < simplePuzzleSize; ++y) {
@@ -101,14 +104,6 @@ void WordSearch::ReadAdvancedPuzzle() {
 	int y = 0;
 	while (Reader >> Holder) {
 		Cell * Temp = new Cell(Holder, x, y);
-		Temp->SetLeft(nullptr);
-		Temp->SetRight(nullptr);
-		Temp->SetUp(nullptr);
-		Temp->SetDown(nullptr);
-		Temp->SetTopLeft(nullptr);
-		Temp->SetTopRight(nullptr);
-		Temp->SetBottomLeft(nullptr);
-		Temp->SetBottomRight(nullptr);
 		Data[x * m_Size + y] = *Temp;
 		y++;
 		if (y > m_Size - 1) {
@@ -156,7 +151,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 }
 
 void WordSearch::ReadAdvancedDictionary() {
-	// Add your code here
+	cout << "Read Advanced Dictionary is not Implemented" << endl;
 }
 // solves the puzzle simply
 void WordSearch::SolvePuzzleSimple() {
@@ -168,6 +163,7 @@ void WordSearch::SolvePuzzleSimple() {
 			string CurrentWord = "";
 
 			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) {
+				
 				if (Dictionary[WordNumber][0] == *CurrentChar) {
 					//find if it the word
 					CurrentWord += Dictionary[WordNumber][0];
@@ -311,7 +307,7 @@ void WordSearch::SolvePuzzleSimple() {
 
 
 
-
+					
 					CurrentWord = "";
 				AddWord:
 					if (CurrentWord != "") {
@@ -320,18 +316,23 @@ void WordSearch::SolvePuzzleSimple() {
 					}
 
 				}
-			}
+				}
 
 
 		}
 	}
-
+	for each(string i in Dictionary) {
+		if (find(FoundWords.begin(), FoundWords.end(), i) == FoundWords.end()) {
+			UnfoundWords.push_back(i);
+		}
+	}
 }
 
 void WordSearch::SolvePuzzleAdvanced() {
 	// for every word in the dictionary cast the first letter to the 
 	
 	for (int word = 0; word < Dictionary.size(); word++) {
+		int dictsize = FoundWords.size();
 		for(int x = 0; x < Alphabet[Dictionary[word][0] - 'A'].size(); x++) {
 			
 			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word])) {
@@ -344,7 +345,9 @@ void WordSearch::SolvePuzzleAdvanced() {
 			}
 			
 		}
-		
+		if (dictsize == FoundWords.size()) {
+			UnfoundWords.push_back(Dictionary[word]);
+		}
 	}
 }
 
@@ -358,7 +361,7 @@ void WordSearch::WriteResults(const double loadTime, const double solveTime) con
 	}
 	Writer << "Read in " << Dictionary.size() + FoundWords.size() << " words from the dictionary" << endl;
 	Writer << "Unfound Words: " << endl;
-	for each(string i in Dictionary) {
+	for each(string i in UnfoundWords) {
 		Writer << i << endl;
 	}
 
@@ -369,7 +372,10 @@ void WordSearch::WriteResults(const double loadTime, const double solveTime) con
 	for each(string i in FoundWords) {
 		cout << i << endl;
 	}
-
+	cout << "Unfound Words: " << endl;
+	for each(string i in UnfoundWords) {
+		cout << i << endl;
+	}
 	cout << "Read in " << Dictionary.size() + FoundWords.size() << " words from the dictionary" << endl;
 
 }
