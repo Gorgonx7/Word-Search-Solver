@@ -14,11 +14,21 @@ Cell::~Cell()
 Cell Cell::operator=(const Cell & rhs)
 {
 	m_Data = rhs.m_Data;
+	m_X = rhs.m_X;
+	m_Y = rhs.m_Y;
+	m_BottomLeft = rhs.m_BottomLeft;
+	m_BottomRight = rhs.m_BottomRight;
+	m_TopLeft = rhs.m_TopLeft;
+	m_TopRight = rhs.m_TopRight;
+	m_Up = rhs.m_Up;
+	m_Down = rhs.m_Down;
+	m_Left = rhs.m_Left;
+	m_Right = rhs.m_Right;
 	return *this;
 }
 
 // This method checks all the cells finds a direction and then trys to solve in that direction
-bool Cell::Solve(std::string pWord)
+bool Cell::Solve(const std::string &pWord)
 {
 	
 	
@@ -33,13 +43,13 @@ bool Cell::Solve(std::string pWord)
 
 
 
-bool Cell::SolveInDirection(Direction pDirection, std::string pWord)
+bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord)
 {
-	if (pWord[pWord.size() - 1] == GetData()) {
+	if (pWord[pWord.size() - 1] == GetData()&& pWord.size() == 1)  {
 		
 		return true;
 	}
-	char holder = GetData();
+	const char holder = GetData();
 
 	switch (pDirection) {
 

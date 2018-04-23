@@ -55,7 +55,7 @@ WordSearch::~WordSearch() {
 
 	FoundWords.clear();
 	UnfoundWords.clear();
-	//	Dictionary.clear();
+	Dictionary.clear();
 }
 
 void WordSearch::ReadSimplePuzzle() {
@@ -64,7 +64,7 @@ void WordSearch::ReadSimplePuzzle() {
 	ifstream Reader((std::string(puzzleName)));
 	int simpleSize;
 	Reader >> simpleSize;
-
+	assert(simpleSize == simplePuzzleSize);
 	if (Reader.is_open()) {
 		for (int x = 0; x < simplePuzzleSize; ++x) {
 			for (int y = 0; y < simplePuzzleSize; ++y) {
@@ -96,6 +96,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 	|*| Store them alphabetically in a 26 length array
 	|*| Ensure all the cells are linked correctly
 	\*/
+	ReadSimpleDictionary();
 	ifstream Reader((std::string(puzzleName)));
 	Reader >> m_Size;
 	char Holder;
@@ -159,7 +160,7 @@ void WordSearch::SolvePuzzleSimple() {
 
 	for (int x = 0; x < simplePuzzleSize; ++x) {
 		for (int y = 0; y < simplePuzzleSize; ++y) {
-			const char* const CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
+			const char* CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
 			string CurrentWord = "";
 
 			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) {
@@ -349,6 +350,7 @@ void WordSearch::SolvePuzzleAdvanced() {
 			UnfoundWords.push_back(Dictionary[word]);
 		}
 	}
+	
 }
 
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {
@@ -359,23 +361,12 @@ void WordSearch::WriteResults(const double loadTime, const double solveTime) con
 	for each(string i in FoundWords) {
 		Writer << i << endl;
 	}
-	Writer << "Read in " << Dictionary.size() + FoundWords.size() << " words from the dictionary" << endl;
+	Writer << "Read in " << Dictionary.size()<< " words from the dictionary" << endl;
 	Writer << "Unfound Words: " << endl;
 	for each(string i in UnfoundWords) {
 		Writer << i << endl;
 	}
 
 
-	cout << "Load Time: " << loadTime << endl;
-	cout << "Solve Time:" << solveTime << endl;
-	cout << "Found " << FoundWords.size() << " words!" << endl;
-	for each(string i in FoundWords) {
-		cout << i << endl;
-	}
-	cout << "Unfound Words: " << endl;
-	for each(string i in UnfoundWords) {
-		cout << i << endl;
-	}
-	cout << "Read in " << Dictionary.size() + FoundWords.size() << " words from the dictionary" << endl;
 
 }

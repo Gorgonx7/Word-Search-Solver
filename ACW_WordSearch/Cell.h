@@ -13,7 +13,7 @@ public:
 	Cell();
 	~Cell();
 	Cell operator=(const Cell &rhs);
-	bool Solve(std::string pWord);
+	bool Solve(const std::string &pWord);
 	inline void SetRight(Cell* pCell) {
 		m_Right = pCell;
 	};
@@ -44,7 +44,7 @@ public:
 	};
 
 private:
-	
+	Cell(const Cell &rhs) {};
 	inline void SetData(char &Data) {
 		m_Data = Data;
 	};
@@ -52,7 +52,7 @@ private:
 	char m_Data;
 	int m_X = 0;
 	int m_Y = 0;
-	bool SolveInDirection(Direction pDirection, std::string pWord);
+	bool SolveInDirection(const Direction pDirection, const std::string &pWord);
 	
 	inline Cell* Right() {
 		return m_Right;
@@ -87,4 +87,3 @@ private:
 	Cell* m_BottomLeft = nullptr;
 	Cell* m_BottomRight = nullptr;
 };
-
