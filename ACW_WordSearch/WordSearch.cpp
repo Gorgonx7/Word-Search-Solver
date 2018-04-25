@@ -108,7 +108,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 	int x = 0;
 	int y = 0;
 	while (Reader >> Holder) {
-		Cell * Temp = new Cell(Holder, x, y, m_Size);
+		const Cell * const Temp = new Cell(Holder, x, y, m_Size);
 		Data[x * m_Size + y] = *Temp;
 		y++;
 		if (y > m_Size - 1) {
@@ -119,7 +119,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 	}
 	for (int x = 0; x < m_Size; x++) {
 		for (int y = 0; y < m_Size; y++) {
-			Cell* Temp = &Data[x * m_Size + y];
+		    Cell* const Temp = &Data[x * m_Size + y];
 			if (x != 0) {
 				Temp->SetUp(&Data[(x * m_Size) + y - m_Size]);
 				if (y != 0) {
@@ -146,8 +146,8 @@ void WordSearch::ReadAdvancedPuzzle() {
 			if (y != m_Size - 1) {
 				Temp->SetRight(&Data[(x * m_Size) + (y + 1)]);
 			}
-			char Holder = Temp->GetData();
-			int index = Holder - 'A';
+			const char Holder = Temp->GetData();
+			const int index = Holder - 'A';
 			Alphabet[index].push_back(Temp);
 
 			
@@ -164,7 +164,7 @@ void WordSearch::SolvePuzzleSimple() {
 
 	for (int x = 0; x < simplePuzzleSize; ++x) {
 		for (int y = 0; y < simplePuzzleSize; ++y) {
-			const char* CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
+			const char * const CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
 			string CurrentWord = "";
 			NumberOfCellsVisited++;
 			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) {
@@ -346,7 +346,7 @@ void WordSearch::SolvePuzzleAdvanced() {
 	
 	for (int word = 0; word < Dictionary.size(); word++) {
 		NumberOfWordsVisited++;
-		int dictsize = FoundWords.size();
+		const int dictsize = FoundWords.size();
 		for(int x = 0; x < Alphabet[Dictionary[word][0] - 'A'].size(); x++) {
 			
 			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word], NumberOfCellsVisited)) {
