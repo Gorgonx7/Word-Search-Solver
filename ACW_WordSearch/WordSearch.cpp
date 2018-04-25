@@ -11,7 +11,9 @@ vector<string> Dictionary;
 vector<string> FoundWords;
 vector<string> UnfoundWords;
 bool debug = true;
-const int simplePuzzleSize = 50;
+const int simplePuzzleSize = 9;
+int NumberOfWordsVisited = 0;
+int NumberOfCellsVisited = 0;
 char simplePuzzle[simplePuzzleSize][simplePuzzleSize];
 char* puzzelHolder;
 const char* saveFileName;
@@ -56,6 +58,8 @@ WordSearch::~WordSearch() {
 	FoundWords.clear();
 	UnfoundWords.clear();
 	Dictionary.clear();
+	NumberOfWordsVisited = 0;
+	NumberOfCellsVisited = 0;
 }
 
 void WordSearch::ReadSimplePuzzle() {
@@ -104,7 +108,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 	int x = 0;
 	int y = 0;
 	while (Reader >> Holder) {
-		Cell * Temp = new Cell(Holder, x, y);
+		Cell * Temp = new Cell(Holder, x, y, m_Size);
 		Data[x * m_Size + y] = *Temp;
 		y++;
 		if (y > m_Size - 1) {
@@ -162,9 +166,9 @@ void WordSearch::SolvePuzzleSimple() {
 		for (int y = 0; y < simplePuzzleSize; ++y) {
 			const char* CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
 			string CurrentWord = "";
-
+			NumberOfCellsVisited++;
 			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) {
-				
+				NumberOfWordsVisited++;
 				if (Dictionary[WordNumber][0] == *CurrentChar) {
 					//find if it the word
 					CurrentWord += Dictionary[WordNumber][0];
@@ -172,6 +176,7 @@ void WordSearch::SolvePuzzleSimple() {
 						//right
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++)
 						{
+							NumberOfCellsVisited++;
 							if (Dictionary[WordNumber][letter] == CurrentChar[letter])
 							{
 								CurrentWord += Dictionary[WordNumber][letter];
@@ -190,6 +195,7 @@ void WordSearch::SolvePuzzleSimple() {
 
 						//left
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+							NumberOfCellsVisited++;
 							if (Dictionary[WordNumber][letter] == (CurrentChar - letter)[0]) {
 								CurrentWord += Dictionary[WordNumber][letter];
 							}
@@ -207,6 +213,7 @@ void WordSearch::SolvePuzzleSimple() {
 						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize) {
 							//down
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * simplePuzzleSize)[0]) {
 									CurrentWord += Dictionary[WordNumber][letter];
 								}
@@ -223,6 +230,7 @@ void WordSearch::SolvePuzzleSimple() {
 						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) {
 							//bottom right
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize + 1))[0]) {
 									CurrentWord += Dictionary[WordNumber][letter];
 								}
@@ -239,6 +247,7 @@ void WordSearch::SolvePuzzleSimple() {
 						if ((x + Dictionary[WordNumber].size() <= simplePuzzleSize && y - Dictionary[WordNumber].size() >= 0)) {
 							//bottom left
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize - 1))[0]) {
 									CurrentWord += Dictionary[WordNumber][letter];
 								}
@@ -257,6 +266,7 @@ void WordSearch::SolvePuzzleSimple() {
 						if (x - Dictionary[WordNumber].size() >= 0) {
 							//up
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * simplePuzzleSize)[0]) {
 									CurrentWord += Dictionary[WordNumber][letter];
 								}
@@ -274,6 +284,7 @@ void WordSearch::SolvePuzzleSimple() {
 						{
 							//top right
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize - 1))[0]) {
 									CurrentWord += Dictionary[WordNumber][letter];
 								}
@@ -290,6 +301,7 @@ void WordSearch::SolvePuzzleSimple() {
 						if (x - Dictionary[WordNumber].size() >= 0 && y - Dictionary[WordNumber].size() >= 0) {
 							//top left
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
+								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize + 1))[0]) {
 									CurrentWord += Dictionary[WordNumber][letter];
 								}
@@ -333,10 +345,11 @@ void WordSearch::SolvePuzzleAdvanced() {
 	// for every word in the dictionary cast the first letter to the 
 	
 	for (int word = 0; word < Dictionary.size(); word++) {
+		NumberOfWordsVisited++;
 		int dictsize = FoundWords.size();
 		for(int x = 0; x < Alphabet[Dictionary[word][0] - 'A'].size(); x++) {
 			
-			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word])) {
+			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word], NumberOfCellsVisited)) {
 				FoundWords.push_back(Dictionary[word]);
 				break;
 			}
@@ -355,18 +368,23 @@ void WordSearch::SolvePuzzleAdvanced() {
 
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {
 	ofstream Writer(saveFileName);
-	Writer << "Load Time: " << loadTime << endl;
-	Writer << "Solve Time:" << solveTime << endl;
-	Writer << "Found " << FoundWords.size() << " words!" << endl;
+	Writer << "NUMBER_OF_WORDS_MATCHED " << FoundWords.size() << endl << endl;
+	
+	
+	Writer << "WORDS_MATCHED_IN_GRID" << endl;
 	for each(string i in FoundWords) {
 		Writer << i << endl;
 	}
-	Writer << "Read in " << Dictionary.size()<< " words from the dictionary" << endl;
-	Writer << "Unfound Words: " << endl;
+	
+	Writer << "WORDS_UNMATCHED_IN_GRID" << endl;
 	for each(string i in UnfoundWords) {
 		Writer << i << endl;
 	}
-
+	Writer << "NUMBER_OF_GRID_CELLS_VISITED " << NumberOfCellsVisited << endl;
+	Writer << "NUMBER_OF_DICTIONARY_ENTRIES_VISITED " << NumberOfWordsVisited << endl;
+	Writer << "TIME_TO_POPULATE_GRID_STRUCTURE " << loadTime << endl;
+	
+	Writer << "TIME_TO_SOLVE_PUZZLE " << solveTime << endl;
 
 
 }

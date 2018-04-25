@@ -6,14 +6,14 @@ enum Direction {
 };
 class Cell
 {
-	friend class PuzzleAssembler;
+	
 public:
 	
-	Cell(const char pCharacter, int pX, int pY) : m_Data(pCharacter), m_X(pX), m_Y(pY) {};
+	Cell(const char pCharacter, const int pX, const int pY, const int pPuzzleSize) : m_Data(pCharacter), m_X(pX), m_Y(pY), m_PuzzleSize(pPuzzleSize) {};
 	Cell();
 	~Cell();
 	Cell operator=(const Cell &rhs);
-	bool Solve(const std::string &pWord);
+	bool Solve(const std::string &pWord, int &NumberOfCells);
 	inline void SetRight(Cell* pCell) {
 		m_Right = pCell;
 	};
@@ -50,9 +50,10 @@ private:
 	};
     
 	char m_Data;
+	int m_PuzzleSize;
 	int m_X = 0;
 	int m_Y = 0;
-	bool SolveInDirection(const Direction pDirection, const std::string &pWord);
+	bool SolveInDirection(const Direction pDirection, const std::string &pWord, int &NumberOfCells);
 	
 	inline Cell* Right() {
 		return m_Right;
