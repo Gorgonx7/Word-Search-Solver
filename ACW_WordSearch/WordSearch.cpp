@@ -8,6 +8,7 @@
 #include <algorithm>
 using namespace std;
 vector<string> Dictionary;
+vector<int> Coords;
 vector<string> FoundWords;
 vector<string> UnfoundWords;
 bool debug = true;
@@ -58,6 +59,7 @@ WordSearch::~WordSearch() {
 	FoundWords.clear();
 	UnfoundWords.clear();
 	Dictionary.clear();
+	Coords.clear();
 	NumberOfWordsVisited = 0;
 	NumberOfCellsVisited = 0;
 }
@@ -326,6 +328,8 @@ void WordSearch::SolvePuzzleSimple() {
 					if (CurrentWord != "") {
 						FoundWords.push_back(CurrentWord);
 						//Dictionary.erase(Dictionary.begin() + WordNumber);
+						Coords.push_back(y);
+						Coords.push_back(x);
 					}
 
 				}
@@ -351,6 +355,8 @@ void WordSearch::SolvePuzzleAdvanced() {
 			
 			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word], NumberOfCellsVisited)) {
 				FoundWords.push_back(Dictionary[word]);
+				Coords.push_back(Alphabet[Dictionary[word][0] - 'A'][x]->GetY());
+				Coords.push_back(Alphabet[Dictionary[word][0] - 'A'][x]->GetX());
 				break;
 			}
 			else {
@@ -372,8 +378,9 @@ void WordSearch::WriteResults(const double loadTime, const double solveTime) con
 	
 	
 	Writer << "WORDS_MATCHED_IN_GRID" << endl;
+	int coordItterator = 0;
 	for each(string i in FoundWords) {
-		Writer << i << endl;
+		Writer << Coords[coordItterator] << Coords[coordItterator + 1] << i << endl;
 	}
 	
 	Writer << "WORDS_UNMATCHED_IN_GRID" << endl;

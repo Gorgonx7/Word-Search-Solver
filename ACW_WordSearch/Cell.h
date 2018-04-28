@@ -42,7 +42,12 @@ public:
 	inline char const GetData() {
 		return m_Data;
 	};
-
+	inline int const GetX() {
+		return m_X;
+	}
+	inline int const GetY() {
+		return m_Y;
+	}
 private:
 	Cell(const Cell &rhs) {};
 	inline void SetData(char &Data) {
