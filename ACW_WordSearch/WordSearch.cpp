@@ -328,8 +328,8 @@ void WordSearch::SolvePuzzleSimple() {
 					if (CurrentWord != "") {
 						FoundWords.push_back(CurrentWord);
 						//Dictionary.erase(Dictionary.begin() + WordNumber);
-						Coords.push_back(y);
-						Coords.push_back(x);
+						Coords.push_back(int(y));
+						Coords.push_back(int(x));
 					}
 
 				}
@@ -380,7 +380,8 @@ void WordSearch::WriteResults(const double loadTime, const double solveTime) con
 	Writer << "WORDS_MATCHED_IN_GRID" << endl;
 	int coordItterator = 0;
 	for each(string i in FoundWords) {
-		Writer << Coords[coordItterator] << Coords[coordItterator + 1] << i << endl;
+		Writer << Coords[coordItterator] + 1 << " " << Coords[coordItterator + 1] + 1 << " " << i << endl;
+		coordItterator += 2;
 	}
 	
 	Writer << "WORDS_UNMATCHED_IN_GRID" << endl;
