@@ -11,42 +11,13 @@ vector<string> Dictionary;
 vector<int> Coords;
 vector<string> FoundWords;
 vector<string> UnfoundWords;
-bool debug = true;
 const int simplePuzzleSize = 9;
 int NumberOfWordsVisited = 0;
 int NumberOfCellsVisited = 0;
 char simplePuzzle[simplePuzzleSize][simplePuzzleSize];
 char* puzzelHolder;
 const char* saveFileName;
-bool Advanced = false;
-vector<Cell *> Alphabet[26] = {
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0),
-	vector<Cell *>(0)
-};
+vector<Cell *> Alphabet[26];
 int m_Size;
 WordSearch::WordSearch(const char * const filename) {
 
@@ -64,7 +35,7 @@ WordSearch::~WordSearch() {
 	NumberOfCellsVisited = 0;
 }
 
-void WordSearch::ReadSimplePuzzle() {
+void WordSearch::ReadSimplePuzzle() const{
 
 
 	ifstream Reader((std::string(puzzleName)));
@@ -84,7 +55,7 @@ void WordSearch::ReadSimplePuzzle() {
 }
 
 //This method loads in the dictionary in to a simple vector structure
-void WordSearch::ReadSimpleDictionary() {
+void WordSearch::ReadSimpleDictionary() const {
 	ifstream Reader((std::string(dictionaryName))); // declare the reader
 	if (Reader.is_open()) { // if the file is open and exsists
 		std::string Holder; // create a holder string
@@ -95,7 +66,7 @@ void WordSearch::ReadSimpleDictionary() {
 	}
 }
 
-void WordSearch::ReadAdvancedPuzzle() {
+void WordSearch::ReadAdvancedPuzzle() const {
 	/*\
 	|*| TODO
 	|*| Load in all the letters
@@ -117,6 +88,7 @@ void WordSearch::ReadAdvancedPuzzle() {
 			x++;
 			y = 0;
 		}
+		
 
 	}
 	for (int x = 0; x < m_Size; x++) {
@@ -157,11 +129,11 @@ void WordSearch::ReadAdvancedPuzzle() {
 	}
 }
 
-void WordSearch::ReadAdvancedDictionary() {
+void WordSearch::ReadAdvancedDictionary() const {
 	cout << "Read Advanced Dictionary is not Implemented" << endl;
 }
 // solves the puzzle simply
-void WordSearch::SolvePuzzleSimple() {
+void WordSearch::SolvePuzzleSimple() const {
 
 
 	for (int x = 0; x < simplePuzzleSize; ++x) {
@@ -327,9 +299,9 @@ void WordSearch::SolvePuzzleSimple() {
 				AddWord:
 					if (CurrentWord != "") {
 						FoundWords.push_back(CurrentWord);
-						//Dictionary.erase(Dictionary.begin() + WordNumber);
-						Coords.push_back(int(y));
-						Coords.push_back(int(x));
+						Dictionary.erase(Dictionary.begin() + WordNumber);
+						Coords.push_back(y);
+						Coords.push_back(x);
 					}
 
 				}
@@ -345,7 +317,7 @@ void WordSearch::SolvePuzzleSimple() {
 	}
 }
 
-void WordSearch::SolvePuzzleAdvanced() {
+void WordSearch::SolvePuzzleAdvanced() const {
 	// for every word in the dictionary cast the first letter to the 
 	
 	for (int word = 0; word < Dictionary.size(); word++) {
@@ -371,27 +343,42 @@ void WordSearch::SolvePuzzleAdvanced() {
 	}
 	
 }
-
+WordSearch::WordSearch(const WordSearch &rhs) 
+{
+	puzzleName = rhs.puzzleName;
+	dictionaryName = rhs.dictionaryName;
+	
+}
+WordSearch& WordSearch::operator=(const WordSearch& rhs) 
+{
+	puzzleName = rhs.puzzleName;
+	dictionaryName = rhs.dictionaryName;
+	
+	return *this;
+}
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {
 	ofstream Writer(saveFileName);
 	Writer << "NUMBER_OF_WORDS_MATCHED " << FoundWords.size() << endl << endl;
 	
 	
 	Writer << "WORDS_MATCHED_IN_GRID" << endl;
-	int coordItterator = 0;
-	for each(string i in FoundWords) {
-		Writer << Coords[coordItterator] + 1 << " " << Coords[coordItterator + 1] + 1 << " " << i << endl;
-		coordItterator += 2;
-	}
 	
-	Writer << "WORDS_UNMATCHED_IN_GRID" << endl;
+	for (int x = 0; x < FoundWords.size(); x++) {
+		Writer << Coords[x * 2] << " " << Coords[x * 2 + 1] << " " << FoundWords[x] << endl;
+		
+	}
+	Writer << endl;
+	Writer <<"WORDS_UNMATCHED_IN_GRID" << endl;
 	for each(string i in UnfoundWords) {
 		Writer << i << endl;
 	}
+	Writer << endl;
 	Writer << "NUMBER_OF_GRID_CELLS_VISITED " << NumberOfCellsVisited << endl;
+	Writer << endl;
 	Writer << "NUMBER_OF_DICTIONARY_ENTRIES_VISITED " << NumberOfWordsVisited << endl;
+	Writer << endl;
 	Writer << "TIME_TO_POPULATE_GRID_STRUCTURE " << loadTime << endl;
-	
+	Writer << endl;
 	Writer << "TIME_TO_SOLVE_PUZZLE " << solveTime << endl;
 
 

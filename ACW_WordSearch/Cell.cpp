@@ -3,6 +3,8 @@
 
 Cell::Cell()
 {
+	m_Data = 'A';
+	m_PuzzleSize = 0;
 }
 
 
@@ -11,7 +13,7 @@ Cell::~Cell()
 
 }
 
-Cell Cell::operator=(const Cell & rhs)
+Cell& Cell::operator=(const Cell & rhs)
 {
 	m_Data = rhs.m_Data;
 	m_X = rhs.m_X;
@@ -28,55 +30,7 @@ Cell Cell::operator=(const Cell & rhs)
 	return *this;
 }
 
-// This method checks all the cells finds a direction and then trys to solve in that direction
-bool Cell::Solve(const std::string &pWord, int &NumberOfCells)
-{
-	//implement the efficency algorithm to improve performance
-	
-	if ((m_Y - pWord.size()) >= 0) {
-		if (SolveInDirection(LEFT, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_Y + pWord.size() <= m_PuzzleSize) {
-		if (SolveInDirection(RIGHT, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_X + pWord.size() <= m_PuzzleSize) {
-		if (SolveInDirection(DOWN, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_X - pWord.size() >= 0) {
-		if (SolveInDirection(UP, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_X - pWord.size() >= 0 && m_Y - pWord.size() >= 0) {
-		if (SolveInDirection(TOPLEFT, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_X - pWord.size() >= 0 && m_Y + pWord.size() <= m_PuzzleSize) {
-		if (SolveInDirection(TOPRIGHT, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_X + pWord.size() <= m_PuzzleSize  && m_Y - pWord.size() >= 0) {
-		if (SolveInDirection(BOTTOMLEFT, pWord, NumberOfCells)) {
-			return true;
-		}
-	}
-	if (m_X + pWord.size() <= m_PuzzleSize  && m_Y + pWord.size() <= m_PuzzleSize) {
-		if(SolveInDirection(BOTTOMRIGHT, pWord, NumberOfCells))
-		{
-			return true;
-		}
-	}
-	
-	return false;
-}
+
 
 
 
@@ -93,7 +47,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 
 	switch (pDirection) {
 
-	case LEFT:
+	case Direction::LEFT:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -106,7 +60,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case RIGHT:
+	case Direction::RIGHT:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -119,7 +73,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case DOWN:
+	case Direction::DOWN:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -132,7 +86,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case UP:
+	case Direction::UP:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -146,7 +100,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case TOPLEFT:
+	case Direction::TOPLEFT:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -159,7 +113,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case TOPRIGHT:
+	case Direction::TOPRIGHT:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -172,7 +126,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case BOTTOMLEFT:
+	case Direction::BOTTOMLEFT:
 		if (pWord[0] != holder) {
 			return false;
 		}
@@ -185,7 +139,7 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 			return false;
 		}
 		break;
-	case BOTTOMRIGHT:
+	case Direction::BOTTOMRIGHT:
 		if (pWord[0] != holder) {
 			return false;
 		}

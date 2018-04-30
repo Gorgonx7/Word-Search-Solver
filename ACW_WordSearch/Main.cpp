@@ -16,7 +16,7 @@ int main(int, char **) {
 	
 	// Test simple algorithm
 	{
-		WordSearch ws("output_simple.txt");
+		const WordSearch ws("output_simple.txt");
 
 		wrapper.startTimer();
 		ws.ReadSimplePuzzle();
@@ -32,7 +32,7 @@ int main(int, char **) {
 	
 	// Test advanced algorithm
 	{
-		WordSearch ws("output_advanced.txt");
+		const WordSearch ws("output_advanced.txt");
 
 		wrapper.startTimer();
 		ws.ReadAdvancedPuzzle();
@@ -45,6 +45,6 @@ int main(int, char **) {
 
 		ws.WriteResults(loadTime, solveTime);
 	}
-	system("PAUSE");
+	
 	return 0;
 }
