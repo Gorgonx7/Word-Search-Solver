@@ -7,50 +7,52 @@
 #include <assert.h>
 #include <algorithm>
 using namespace std;
-vector<string> Dictionary;
-vector<int> Coords;
-vector<string> FoundWords;
-vector<string> UnfoundWords;
-const int simplePuzzleSize = 9;
-int NumberOfWordsVisited = 0;
-int NumberOfCellsVisited = 0;
-char simplePuzzle[simplePuzzleSize][simplePuzzleSize];
-char* puzzelHolder;
-const char* saveFileName;
-vector<Cell *> Alphabet[26];
-int m_Size;
+vector<string> Dictionary; // vector of strings that contain the dictionary
+vector<int> Coords; // coords of found words
+vector<string> FoundWords;// the found words themselves
+vector<string> UnfoundWords; // words that have not been found by the search algorithm
+const int simplePuzzleSize = 9; // size of the simple puzzle 
+int NumberOfWordsVisited = 0; // number of words that the algorithm visits
+int NumberOfCellsVisited = 0; // number of cells visited by the algorithm
+char simplePuzzle[simplePuzzleSize][simplePuzzleSize]; // the simple puzzle holding array for loading
+char* puzzelHolder; // the pointer to the start of the simple puzzle array
+const char* saveFileName; // the name of the output file to save too
+vector<Cell *> Alphabet[26]; // the alphabet array consisting of a array of 26 vector cell pointers
+int m_Size; // the size of the puzzle
+
+/// Constructor for the word search
 WordSearch::WordSearch(const char * const filename) {
 
-	saveFileName = filename;
+	saveFileName = filename; // assign the name of the save file to be referenced later
 
 }
-
+/// destructor for the word search
 WordSearch::~WordSearch() {
 
-	FoundWords.clear();
-	UnfoundWords.clear();
-	Dictionary.clear();
-	Coords.clear();
-	NumberOfWordsVisited = 0;
-	NumberOfCellsVisited = 0;
+	FoundWords.clear(); // clear the found words
+	UnfoundWords.clear(); // clear the unfound words
+	Dictionary.clear(); // clear the dictionary
+	Coords.clear(); // clear the coords
+	NumberOfWordsVisited = 0; // reset the number of words visited
+	NumberOfCellsVisited = 0; // reset the number of cells visited
 }
-
+/// Read simple puzzle structure in for solvinng
 void WordSearch::ReadSimplePuzzle() const{
 
 
-	ifstream Reader((std::string(puzzleName)));
-	int simpleSize;
-	Reader >> simpleSize;
-	assert(simpleSize == simplePuzzleSize);
-	if (Reader.is_open()) {
-		for (int x = 0; x < simplePuzzleSize; ++x) {
-			for (int y = 0; y < simplePuzzleSize; ++y) {
-				Reader >> simplePuzzle[x][y];
+	ifstream Reader((std::string(puzzleName))); // open a stream readerr
+	int simpleSize; // declare a size variable for debugging
+	Reader >> simpleSize; // read in the size of the grid
+	//assert(simpleSize == simplePuzzleSize); // enable if debugging to ensure that the data read in is solvable 
+	if (Reader.is_open()) { // check to see if the reader is open
+		for (int x = 0; x < simplePuzzleSize; ++x) { // for each row in the grid
+			for (int y = 0; y < simplePuzzleSize; ++y) { // for each character in the row
+				Reader >> simplePuzzle[x][y]; // read in the data to the appropriate slot in the array
 			}
 		}
 	}
 
-	puzzelHolder = &simplePuzzle[0][0];
+	puzzelHolder = &simplePuzzle[0][0]; // assign the start pointer
 
 }
 
@@ -65,25 +67,20 @@ void WordSearch::ReadSimpleDictionary() const {
 		}
 	}
 }
-
+///read in the advanced puzzle into the advanced data structure
 void WordSearch::ReadAdvancedPuzzle() const {
-	/*\
-	|*| TODO
-	|*| Load in all the letters
-	|*| Store them alphabetically in a 26 length array
-	|*| Ensure all the cells are linked correctly
-	\*/
-	ReadSimpleDictionary();
-	ifstream Reader((std::string(puzzleName)));
-	Reader >> m_Size;
-	char Holder;
-	Cell* Data = new Cell[m_Size * m_Size];
-	int x = 0;
-	int y = 0;
-	while (Reader >> Holder) {
-		const Cell * const Temp = new Cell(Holder, x, y, m_Size);
-		Data[x * m_Size + y] = *Temp;
-		y++;
+	
+	ReadSimpleDictionary(); // read in the simple dictionary
+	ifstream Reader((std::string(puzzleName))); // create a stream reader
+	Reader >> m_Size; // read in the size of the grid
+	char Holder; // create a holder to store data in
+	Cell* Data = new Cell[m_Size * m_Size]; // create the array on the heap 
+	int x = 0; // create an x and y holder
+	int y = 0; 
+	while (Reader >> Holder) { // while data can be read in
+		const Cell * const Temp = new Cell(Holder, x, y, m_Size); // create a new cell object on the heap
+		Data[x * m_Size + y] = *Temp; // assign that data to the array
+		y++; // increment the coordinate counters
 		if (y > m_Size - 1) {
 			x++;
 			y = 0;
@@ -91,11 +88,16 @@ void WordSearch::ReadAdvancedPuzzle() const {
 		
 
 	}
-	for (int x = 0; x < m_Size; x++) {
-		for (int y = 0; y < m_Size; y++) {
-		    Cell* const Temp = &Data[x * m_Size + y];
+
+	for (int x = 0; x < m_Size; x++) { 
+		for (int y = 0; y < m_Size; y++) { // for every cell in the data grid
+		    Cell* const Temp = &Data[x * m_Size + y]; // get the current cell
+			/*\
+			|*| The following checks are used to ensure that the pointers are set correctly, this ensures that no pointers are set to trash data
+			|*|
+			\*/
 			if (x != 0) {
-				Temp->SetUp(&Data[(x * m_Size) + y - m_Size]);
+				Temp->SetUp(&Data[(x * m_Size) + y - m_Size]); 
 				if (y != 0) {
 					Temp->SetTopLeft(&Data[(x * m_Size) + y - (m_Size + 1)]);
 				}
