@@ -1,11 +1,10 @@
 #pragma once
 #include <vector>
 class WordSearch {
-	
-	
-	// Add your code here
 
 public:
+
+	
 	explicit WordSearch(const char * const filename);
 	~WordSearch();
 	WordSearch(const WordSearch &rhs);
@@ -21,6 +20,6 @@ private:
 	
 	const char* puzzleName = "wordsearch_grid.txt";
 	const char* dictionaryName = "dictionary.txt";
-	// Add your code here
+	
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+/// enum for keeping track of the current direciton
 enum class Direction {
 	LEFT, RIGHT, UP, DOWN, TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT
 };
@@ -9,13 +10,14 @@ class Cell
 	
 public:
 	
-	Cell(const char pCharacter, const int pX, const int pY, const int pPuzzleSize) : m_Data(pCharacter),m_PuzzleSize(pPuzzleSize), m_X(pX), m_Y(pY)  {};
-	Cell();
-	~Cell();
-	Cell& operator=(const Cell &rhs);
+	Cell(const char pCharacter, const int pX, const int pY, const int pPuzzleSize) : m_Data(pCharacter),m_PuzzleSize(pPuzzleSize), m_X(pX), m_Y(pY)  {}; // constructor definition
+	Cell(); //default constructor
+	~Cell(); // default destructor
+	Cell& operator=(const Cell &rhs); // assigment opperator
+	///this method is used to search in each direction
 	inline bool Solve(const std::string &pWord, int &NumberOfCells) {
-		//implement the efficency algorithm to improve performance
-
+		
+		// each of these outer if statements is used to check if the word will fit in the direction that the algorithm will try to search in
 		if ((m_Y - pWord.size()) >= 0) {
 			if (SolveInDirection(Direction::LEFT, pWord, NumberOfCells)) {
 				return true;
@@ -57,9 +59,10 @@ public:
 				return true;
 			}
 		}
-
+		// if the checking system never returns true, it returns false this means that the cell is not the starting point of the word
 		return false;
 	};
+	//getters and setters
 	inline void SetRight(Cell* const pCell) {
 		m_Right = pCell;
 	};
@@ -95,11 +98,13 @@ public:
 		return m_Y;
 	}
 private:
+	//private cell copy constructor
 	Cell(const Cell &rhs) {
 		m_Data = rhs.m_Data;
 		m_PuzzleSize = rhs.m_PuzzleSize;
 
 	};
+	//getters setters and data declarations
 	inline void SetData(const char &Data) {
 		m_Data = Data;
 	};

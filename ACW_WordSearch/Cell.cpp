@@ -1,18 +1,18 @@
 #include "Cell.h"
 
 
-Cell::Cell()
+Cell::Cell() // default constructor definition
 {
 	m_Data = 'A';
 	m_PuzzleSize = 0;
 }
 
 
-Cell::~Cell()
+Cell::~Cell() // default destructor
 {
 
 }
-
+// assignment opperator
 Cell& Cell::operator=(const Cell & rhs)
 {
 	m_Data = rhs.m_Data;
@@ -35,29 +35,32 @@ Cell& Cell::operator=(const Cell & rhs)
 
 
 
-
+///Method to search in a specific direction it takes:
+// pDirection - a enum for the direction to search in
+// pWord - the word to search for, passed by reference
+// NumberOfCells - value for the algorithm to increment while searching
 bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord, int &NumberOfCells)
 {
-	NumberOfCells++;
+	NumberOfCells++; // increment the number of cells accessed
 	if (pWord[pWord.size() - 1] == GetData()&& pWord.size() == 1)  {
 		
-		return true;
+		return true; //if last character is equal to the current data and the size of the word is 1 the word has been found
 	}
-	const char holder = GetData();
-
+	const char holder = GetData(); // get the current cell data value
+	//switch the current direction to search in
 	switch (pDirection) {
 
 	case Direction::LEFT:
-		if (pWord[0] != holder) {
+		if (pWord[0] != holder) { // if the starting character of the word is not equal to the current data, then return false
 			return false;
 		}
-		else if (Left() != nullptr) {
-			if (!Left()->SolveInDirection(pDirection, pWord.substr(1), NumberOfCells)) {
-				return false;
+		else if (Left() != nullptr) { // else if the cell in the next direction is not null
+			if (!Left()->SolveInDirection(pDirection, pWord.substr(1), NumberOfCells)) { // recourse into that cell until it returns true or false
+				return false; // if it returns false the word has not been found
 			}
 		}
 		else {
-			return false;
+			return false; // if the next cell is null return false
 		}
 		break;
 	case Direction::RIGHT:
@@ -155,5 +158,5 @@ bool Cell::SolveInDirection(const Direction pDirection, const std::string &pWord
 
 	}
 
-	return true;
+	return true; // if the algorithm has not returned false the word must have been found so return true
 }

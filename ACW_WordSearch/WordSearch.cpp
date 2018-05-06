@@ -130,46 +130,45 @@ void WordSearch::ReadAdvancedPuzzle() const {
 		}
 	}
 }
-
+///un-implemented method for reading in the advanced dictionary
 void WordSearch::ReadAdvancedDictionary() const {
 	cout << "Read Advanced Dictionary is not Implemented" << endl;
 }
-// solves the puzzle simply
+/// solves the puzzle using the simple dictionary and data structure
 void WordSearch::SolvePuzzleSimple() const {
 
 
 	for (int x = 0; x < simplePuzzleSize; ++x) {
-		for (int y = 0; y < simplePuzzleSize; ++y) {
-			const char * const CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y;
-			string CurrentWord = "";
-			NumberOfCellsVisited++;
-			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) {
-				NumberOfWordsVisited++;
-				if (Dictionary[WordNumber][0] == *CurrentChar) {
-					//find if it the word
-					CurrentWord += Dictionary[WordNumber][0];
-					if (y != simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) {
-						//right
+		for (int y = 0; y < simplePuzzleSize; ++y) { // for every cell in the grid
+			const char * const CurrentChar = puzzelHolder + (x * simplePuzzleSize) + y; // get a pointer to the current character being searched
+			string CurrentWord = ""; // create a holder for the current word being searched for
+			NumberOfCellsVisited++; // increment the number of cells visited
+			for (int WordNumber = 0; WordNumber < Dictionary.size(); WordNumber++) { // for every word in the dictionary...
+				NumberOfWordsVisited++; // increment the number of words accessed
+				if (Dictionary[WordNumber][0] == *CurrentChar) { // if the first character of the word is the current character on the grid
+					CurrentWord += Dictionary[WordNumber][0]; // add the current character to the current word
+					if (y != simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) { // check if the word will fit in the right direction
+						// solve in the right direction
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++)
 						{
-							NumberOfCellsVisited++;
+							NumberOfCellsVisited++; // increment the number of cells visited
 							if (Dictionary[WordNumber][letter] == CurrentChar[letter])
 							{
-								CurrentWord += Dictionary[WordNumber][letter];
+								CurrentWord += Dictionary[WordNumber][letter]; // the letter is the next in the sequence
 							}
 							else {
-								CurrentWord = CurrentChar[0];
+								CurrentWord = CurrentChar[0]; // reset the current word and search in the next direction
 								break;
 							}
 							if (CurrentWord == Dictionary[WordNumber]) {
 								//cout << "RIGHT ";
-								goto AddWord;
+								goto AddWord; // the word has been found add the word to found words
 							}
 						}
 					}
-					if (y != 0 && y - Dictionary[WordNumber].size() >= 0) {
+					if (y != 0 && y - Dictionary[WordNumber].size() >= 0) { // check if the word will fit in the left direction
 
-						//left
+						//solve in the left direction
 						for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 							NumberOfCellsVisited++;
 							if (Dictionary[WordNumber][letter] == (CurrentChar - letter)[0]) {
@@ -185,7 +184,7 @@ void WordSearch::SolvePuzzleSimple() const {
 							}
 						}
 					}
-					if (x != simplePuzzleSize - 1) {
+					if (x != simplePuzzleSize - 1) { // check if the word will fit in the right direction
 						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize) {
 							//down
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
@@ -203,8 +202,8 @@ void WordSearch::SolvePuzzleSimple() const {
 								}
 							}
 						}
-						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) {
-							//bottom right
+						if (x + Dictionary[WordNumber].size() <= simplePuzzleSize && y + Dictionary[WordNumber].size() <= simplePuzzleSize) { // check if the word fits in the bottom right direction
+							//solve in the bottom right direction
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize + 1))[0]) {
@@ -220,8 +219,8 @@ void WordSearch::SolvePuzzleSimple() const {
 								}
 							}
 						}
-						if ((x + Dictionary[WordNumber].size() <= simplePuzzleSize && y - Dictionary[WordNumber].size() >= 0)) {
-							//bottom left
+						if ((x + Dictionary[WordNumber].size() <= simplePuzzleSize && y - Dictionary[WordNumber].size() >= 0)) { // check to see if the word fits in the bottom left direction
+							//search in the bottom left direction
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar + letter * (simplePuzzleSize - 1))[0]) {
@@ -238,9 +237,9 @@ void WordSearch::SolvePuzzleSimple() const {
 							}
 						}
 					}
-					if (x != 0) {
-						if (x - Dictionary[WordNumber].size() >= 0) {
-							//up
+					if (x != 0) { // check to see if the top three cells need to be searched
+						if (x - Dictionary[WordNumber].size() >= 0) { // does the word fit in the up direction
+							//search the up direction
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * simplePuzzleSize)[0]) {
@@ -256,9 +255,9 @@ void WordSearch::SolvePuzzleSimple() const {
 								}
 							}
 						}
-						if (x - Dictionary[WordNumber].size() >= 0 && y + Dictionary[WordNumber].size() <= simplePuzzleSize) 
+						if (x - Dictionary[WordNumber].size() >= 0 && y + Dictionary[WordNumber].size() <= simplePuzzleSize) // does the word fit in the top right direction
 						{
-							//top right
+							//search in the top right direction
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize - 1))[0]) {
@@ -274,8 +273,8 @@ void WordSearch::SolvePuzzleSimple() const {
 								}
 							}
 						}
-						if (x - Dictionary[WordNumber].size() >= 0 && y - Dictionary[WordNumber].size() >= 0) {
-							//top left
+						if (x - Dictionary[WordNumber].size() >= 0 && y - Dictionary[WordNumber].size() >= 0) { // does the word fit in the top right direction
+							//search in the top left direction
 							for (int letter = 1; letter < Dictionary[WordNumber].size(); letter++) {
 								NumberOfCellsVisited++;
 								if (Dictionary[WordNumber][letter] == (CurrentChar - letter * (simplePuzzleSize + 1))[0]) {
@@ -297,13 +296,13 @@ void WordSearch::SolvePuzzleSimple() const {
 
 
 					
-					CurrentWord = "";
-				AddWord:
-					if (CurrentWord != "") {
-						FoundWords.push_back(CurrentWord);
-						Dictionary.erase(Dictionary.begin() + WordNumber);
-						Coords.push_back(y);
-						Coords.push_back(x);
+					CurrentWord = "";// if this is reached the word is not found so set it so the word will not be added
+				AddWord: // goto lable if the word is found
+					if (CurrentWord != "") { // if the word has been found
+						FoundWords.push_back(CurrentWord); // add the current word to the list of found words
+						Dictionary.erase(Dictionary.begin() + WordNumber); // erase the entry in the dictionary
+						Coords.push_back(y); // add the y which is the x coordinate
+						Coords.push_back(x); // add the x which is the y coordinate
 					}
 
 				}
@@ -312,24 +311,24 @@ void WordSearch::SolvePuzzleSimple() const {
 
 		}
 	}
-	for each(string i in Dictionary) {
+	for each(string i in Dictionary) { // at the end find all the words that have not been found by comparing the found words with the dictionary
 		if (find(FoundWords.begin(), FoundWords.end(), i) == FoundWords.end()) {
 			UnfoundWords.push_back(i);
 		}
 	}
 }
-
+///method that solves the advanced puzzle
 void WordSearch::SolvePuzzleAdvanced() const {
-	// for every word in the dictionary cast the first letter to the 
 	
-	for (int word = 0; word < Dictionary.size(); word++) {
-		NumberOfWordsVisited++;
-		const int dictsize = FoundWords.size();
-		for(int x = 0; x < Alphabet[Dictionary[word][0] - 'A'].size(); x++) {
+	
+	for (int word = 0; word < Dictionary.size(); word++) { // for every word in the dictionary...
+		NumberOfWordsVisited++; // increment the number of words visited
+		const int dictsize = FoundWords.size(); // save the current size of the dictionary
+		for(int x = 0; x < Alphabet[Dictionary[word][0] - 'A'].size(); x++) { // for every possible starting point
 			
-			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word], NumberOfCellsVisited)) {
-				FoundWords.push_back(Dictionary[word]);
-				Coords.push_back(Alphabet[Dictionary[word][0] - 'A'][x]->GetY());
+			if (Alphabet[Dictionary[word][0] - 'A'][x]->Solve(Dictionary[word], NumberOfCellsVisited)) { // if the word has been found
+				FoundWords.push_back(Dictionary[word]); // add the word to the list of found words
+				Coords.push_back(Alphabet[Dictionary[word][0] - 'A'][x]->GetY()); // record the coordinates of the starting point
 				Coords.push_back(Alphabet[Dictionary[word][0] - 'A'][x]->GetX());
 				break;
 			}
@@ -339,18 +338,20 @@ void WordSearch::SolvePuzzleAdvanced() const {
 			}
 			
 		}
-		if (dictsize == FoundWords.size()) {
-			UnfoundWords.push_back(Dictionary[word]);
+		if (dictsize == FoundWords.size()) { // if the found word vector is still the same 
+			UnfoundWords.push_back(Dictionary[word]); // add the current word to the unfound list
 		}
 	}
 	
 }
+///wordsearch copy constructor
 WordSearch::WordSearch(const WordSearch &rhs) 
 {
 	puzzleName = rhs.puzzleName;
 	dictionaryName = rhs.dictionaryName;
 	
 }
+/// equals operator
 WordSearch& WordSearch::operator=(const WordSearch& rhs) 
 {
 	puzzleName = rhs.puzzleName;
@@ -358,6 +359,7 @@ WordSearch& WordSearch::operator=(const WordSearch& rhs)
 	
 	return *this;
 }
+/// write the results as specified in the 
 void WordSearch::WriteResults(const double loadTime, const double solveTime) const {
 	ofstream Writer(saveFileName);
 	Writer << "NUMBER_OF_WORDS_MATCHED " << FoundWords.size() << endl << endl;
